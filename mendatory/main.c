@@ -70,6 +70,7 @@ void    cylinder(char **split)
         printf("Error: the cylinder is invalid\n");
         exit(1);
     }
+    ft_free(split);
 }
 
 void    plane(char **split)
@@ -128,6 +129,7 @@ void    plane(char **split)
         printf("Error: the plane is invalid\n");
         exit(1);
     }
+    ft_free(split);
 }
 
 void    sphere(char **split)
@@ -180,7 +182,7 @@ void    sphere(char **split)
         printf("Error: the sphere is invalid\n");
         exit(1);
     }
-
+    ft_free(split);
 }
 
 void    light(char **split)
@@ -233,6 +235,7 @@ void    light(char **split)
         printf("Error: the camera is invalid\n");
         exit(1);
     }
+    ft_free(split);
 }
 
 void    camera(char **split)
@@ -281,6 +284,7 @@ void    camera(char **split)
         printf("Error: the camera is invalid\n");
         exit(1);
     }
+    ft_free(split);
 }
 
 void ambient(char **split)
@@ -321,25 +325,29 @@ void ambient(char **split)
         printf("Error: the ambient light is invalid\n");
         exit(1);
     }
+    ft_free(split);
 }
 
 int check_line(char *str)
 {
     char    **split;
 
+    if (str[0] == '\n')
+        return (0);
+    str[ft_strlen(str) - 1] = '\0';
     split = ft_split(str, ' ');
     if (!ft_strcmp(split[0], "A"))
-        ambient(split);
+        return (AMBIENT);
     else if (!ft_strcmp(split[0], "C"))
-        camera(split);
+        return (CAMERA);
     else if (!ft_strcmp(split[0], "L"))
-        light(split);
+        return (LIGHT);
     else if (!ft_strcmp(split[0], "sp"))
-        sphere(split);
+        return (SPHERE);
     else if (!ft_strcmp(split[0], "pl"))
-        plane(split);
+        return (PLANE);
     else if (!ft_strcmp(split[0], "cy"))
-        cylinder(split);
+        return (CYLINDER);
     else
         return(1);
     return (0);
@@ -349,6 +357,12 @@ int main(int argc, char **argv)
 {
     int fd;
     char *line;
+    t_ambient *ambient = NULL;
+    t_camera *camera = NULL;
+    t_light *light = NULL;
+    t_object_container *world = NULL;
+    int    type_of_object;
+    char    **split;
 
     line = NULL;
     if (argc < 2)
@@ -356,7 +370,6 @@ int main(int argc, char **argv)
         printf("the number of arguments is invalid\n");
         exit(1);
     }
-    printf("here\n");
     if (argc == 2)
     {
          if (!ft_strstr(argv[1], ".rt"))
@@ -368,11 +381,42 @@ int main(int argc, char **argv)
     fd = open(argv[1], O_RDONLY);
     while ((line = get_next_line(fd)) != NULL)
     {
-        if (check_line(line))
+        split = ft_split(line, ' ');
+        type_of_object = check_line(line);
+        if (type_of_object == CAMERA)
         {
-            printf("Error: the line is invalid\n");
-            exit(1);
+            if (camera != NULL)
+            {
+                printf("ERROR\n");
+                return (1);
+            }
+            camera = create_camera(line);
         }
+        else if (type_of_object == AMBIENT)
+        {
+            if (ambient != NULL)
+            {
+                printf("ERROR\n");
+                return (1);
+            }
+            ambient = create_ambient(split);
+        }
+        else if (type_of_object == LIGHT)
+        {
+            if (light != NULL)
+            {
+                printf("ERROR\n");
+                return (1);
+            }
+            light = create_light(split);
+        }       
+        else if (type_of_object == SPHERE)
+            add_object(world, create_object(SPHERE, create_sphere(split)));
+        else if (type_of_object == PLANE)
+            add_object(world, create_object(PLANE, create_plane(split)));
+        else if (type_of_object == CYLINDER)
+            add_object(world, create_object(CYLINDER, create_cylinder(split)));
+        free(line);
     }
     return (0);
 }

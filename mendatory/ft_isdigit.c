@@ -16,6 +16,7 @@ int ft_ft_isdigit(char *str)
     }
     return (0);
 }
+
 int ft_isfloat(char *str)
 {
     int i;
