@@ -9,11 +9,11 @@
 #include <stdbool.h>
 
 #define CAMERA 2
-#define AMBIENT 2
-#define LIGHT 3
-#define SPHERE 4
-#define PLANE 5
-#define CYLINDER 6
+#define AMBIENT 3
+#define LIGHT 4
+#define SPHERE 5
+#define PLANE 6
+#define CYLINDER 7
 
 
 typedef struct s_rgb
