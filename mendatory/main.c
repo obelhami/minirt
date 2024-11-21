@@ -1,5 +1,17 @@
 #include "../minirt.h"
 
+int ft_dblptrlen(char **str)
+{
+    int i;
+
+    i = 0;
+    if (!str || !str[0])
+        return 0;
+    while (str[i])
+        i++;
+    return (i);
+}
+
 void    fill_coordinate(t_vec3 *object, char **coordinate)
 {
     object->x = ft_atof(coordinate[0]);
@@ -101,7 +113,7 @@ t_cylinder  *create_cylinder(char **split)
         exit(1);
     }
     fill_rgb(&cylinder->rgb, rgb);
-    if (split[6])
+    if (ft_dblptrlen(split) != 6)
     {
         printf("Error: the cylinder is invalid\n");
         exit(1);
