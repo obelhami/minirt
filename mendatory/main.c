@@ -1,6 +1,20 @@
 #include "../minirt.h"
 
-void    cylinder(char **split)
+void    fill_coordinate(t_vec3 *object, char **coordinate)
+{
+    object->x = ft_atof(coordinate[0]);
+    object->y = ft_atof(coordinate[1]);
+    object->z = ft_atof(coordinate[2]);
+}
+
+void    fill_rgb(t_rgb *object, char **rgb)
+{
+    object->red = ft_atoi(rgb[0]);
+    object->green = ft_atoi(rgb[1]);
+    object->blue = ft_atoi(rgb[2]);
+}
+
+t_cylinder  *create_cylinder(char **split)
 {
     char    **coordinate;
     int i;
@@ -8,7 +22,9 @@ void    cylinder(char **split)
     double  height;
     char    **orientation_vector;
     char    **rgb;
-
+    t_cylinder  *cylinder;
+    
+    cylinder = malloc(sizeof(t_cylinder));
     if (split[1] == NULL)
     {
         printf("no parameter in cylinder \n");
@@ -18,13 +34,19 @@ void    cylinder(char **split)
     i = 0;
     while (coordinate[i])
     {
-        if (ft_isfloat(coordinate[i]) || coordinate[3])
+        if (ft_isfloat(coordinate[i]))
         {
             printf("Error: the coordinates is invalid\n");
             exit(1);
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid1\n");
+        exit(1);
+    }
+    fill_coordinate(&cylinder->cord, coordinate);
     orientation_vector = ft_split(split[2], ',');
     i = 0;
     while (orientation_vector[i])
@@ -37,18 +59,26 @@ void    cylinder(char **split)
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid2\n");
+        exit(1);
+    }
+    fill_coordinate(&cylinder->vectors, orientation_vector);
     diameter = ft_atof(split[3]);
     if (ft_isfloat(split[3]) || diameter < 0.0)
     {
         printf("the range of diameter is invalid1\n");
         exit(1);
     }
+    cylinder->cy_diameter = diameter;
     height = ft_atof(split[4]);
     if (ft_isfloat(split[4]) || height < 0.0)
     {
         printf("the range of height is invalid\n");
         exit(1);
     }
+    cylinder->cy_height = height;
     rgb = ft_split(split[5], ',');
     i = 0;
     while (rgb[i])
@@ -65,21 +95,30 @@ void    cylinder(char **split)
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_rgb(&cylinder->rgb, rgb);
     if (split[6])
     {
         printf("Error: the cylinder is invalid\n");
         exit(1);
     }
     ft_free(split);
+    return (cylinder);
 }
 
-void    plane(char **split)
+t_plane *create_plane(char **split)
 {
     char    **coordinate;
     int i;
     char    **orientation_vector;
     char    **rgb;
+    t_plane *plane;
 
+    plane = malloc(sizeof(t_plane));
     if (split[1] == NULL)
     {
         printf("no parameter in plane \n");
@@ -89,13 +128,19 @@ void    plane(char **split)
     i = 0;
     while (coordinate[i])
     {
-        if (ft_isfloat(coordinate[i]) || coordinate[3])
+        if (ft_isfloat(coordinate[i]))
         {
             printf("Error: the coordinates is invalid\n");
             exit(1);
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_coordinate(&plane->cord, coordinate);
     orientation_vector = ft_split(split[2], ',');
     i = 0;
     while (orientation_vector[i])
@@ -108,6 +153,12 @@ void    plane(char **split)
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_coordinate(&plane->vectors, orientation_vector);
     rgb = ft_split(split[3], ',');
     i = 0;
     while (rgb[i])
@@ -124,21 +175,30 @@ void    plane(char **split)
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_rgb(&plane->rgb, rgb);
     if (split[4])
     {
         printf("Error: the plane is invalid\n");
         exit(1);
     }
     ft_free(split);
+    return (plane);
 }
 
-void    sphere(char **split)
+t_sphere    *create_sphere(char **split)
 {
     char    **coordinate;
     int i;
     double  diameter;
     char    **rgb;
+    t_sphere    *sphere;
 
+    sphere = malloc(sizeof(t_sphere));
     if (split[1] == NULL)
     {
         printf("no parameter in sphere \n");
@@ -148,19 +208,26 @@ void    sphere(char **split)
     i = 0;
     while (coordinate[i])
     {
-        if (ft_isfloat(coordinate[i]) || coordinate[3])
+        if (ft_isfloat(coordinate[i]))
         {
             printf("Error: the coordinates is invalid\n");
             exit(1);
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_coordinate(&sphere->cord, coordinate);
     diameter = ft_atof(split[2]);
     if (ft_isfloat(split[2]) || diameter < 0.0)
     {
         printf("the range of diameter is invalid\n");
         exit(1);
     }
+    sphere->diameter = diameter;
     rgb = ft_split(split[3], ',');
     i = 0;
     while (rgb[i])
@@ -177,21 +244,30 @@ void    sphere(char **split)
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_rgb(&sphere->rgb, rgb);
     if (split[4])
     {
         printf("Error: the sphere is invalid\n");
         exit(1);
     }
     ft_free(split);
+    return (sphere);
 }
 
-void    light(char **split)
+t_light *create_light(char **split)
 {
     int i;
     double  brightness;
     char    **coordinate;
     char    **rgb;
+    t_light *light;
 
+    light = malloc(sizeof(t_light));
     i = 0;
     if (split[1] == NULL)
     {
@@ -201,19 +277,26 @@ void    light(char **split)
     coordinate = ft_split(split[1], ',');
     while (coordinate[i])
     {
-        if (ft_isfloat(coordinate[i]) || coordinate[3])
+        if (ft_isfloat(coordinate[i]))
         {
             printf("Error: the coordinates of light is invalid\n");
             exit(1);
         }
-        i++;        
+        i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_coordinate(&light->cord, coordinate);
     brightness = ft_atof(split[2]);
     if (ft_isfloat(split[2]) || (brightness < 0.0 || brightness > 1.0))
     {
         printf("the range of brightness is invalid\n");
         exit(1);
     }
+    light->brightness = brightness;
     rgb = ft_split(split[3], ',');
     i = 0;
     while (rgb[i])
@@ -230,21 +313,30 @@ void    light(char **split)
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_rgb(&light->rgb, rgb);
     if (split[4])
     {
         printf("Error: the camera is invalid\n");
         exit(1);
     }
     ft_free(split);
+    return (light);
 }
 
-void    camera(char **split)
+t_camera    *create_camera(char **split)
 {
     char    **coordinate;
     int i;
     char    **orientation_vector;
     int fov;
+    t_camera    *camera;
 
+    camera = malloc(sizeof(t_camera));
     if (split[1] == NULL)
     {
         printf("no parameter in camera \n");
@@ -254,13 +346,19 @@ void    camera(char **split)
     i = 0;
     while (coordinate[i])
     {    
-        if (ft_isfloat(coordinate[i]) || coordinate[3])
+        if (ft_isfloat(coordinate[i]))
         {
             printf("Error: the coordinates is invalid\n");
             exit(1);
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_coordinate(&camera->cord, coordinate);
     orientation_vector = ft_split(split[2], ',');
     i = 0;
     while (orientation_vector[i])
@@ -273,26 +371,36 @@ void    camera(char **split)
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_coordinate(&camera->vectors, orientation_vector);
     fov = ft_atof(split[3]);
     if (ft_ft_isdigit(split[3]) || (fov < 0 || fov > 180))
     {
         printf("the range of field of view is invalid\n");
         exit(1);
     }
+    camera->fov = fov;
     if (split[4])
     {
         printf("Error: the camera is invalid\n");
         exit(1);
     }
     ft_free(split);
+    return (camera);
 }
 
-void ambient(char **split)
+t_ambient   *create_ambient(char **split)
 {
     char    **rgb;
     double  light_ratio;
     int i;
+    t_ambient   *ambient;
 
+    ambient = malloc(sizeof(t_ambient));
     if (split[1] == NULL)
     {
         printf("no parameter in ambient light \n");
@@ -305,6 +413,7 @@ void ambient(char **split)
         printf("Error: the light ratio is invalid\n");
         exit(1);
     }
+    ambient->ratio = light_ratio;
     rgb = ft_split(split[2], ',');
     while (rgb[i])
     {
@@ -320,12 +429,19 @@ void ambient(char **split)
         }
         i++;
     }
+    if (i != 3)
+    {
+        printf("Error: the coordinates is invalid\n");
+        exit(1);
+    }
+    fill_rgb(&ambient->rgb, rgb);
     if (split[3])
     {
         printf("Error: the ambient light is invalid\n");
         exit(1);
     }
     ft_free(split);
+    return (ambient);
 }
 
 int check_line(char *str)
@@ -390,7 +506,7 @@ int main(int argc, char **argv)
                 printf("ERROR\n");
                 return (1);
             }
-            camera = create_camera(line);
+            camera = create_camera(split);
         }
         else if (type_of_object == AMBIENT)
         {
@@ -411,11 +527,11 @@ int main(int argc, char **argv)
             light = create_light(split);
         }       
         else if (type_of_object == SPHERE)
-            add_object(world, create_object(SPHERE, create_sphere(split)));
+            add_object(&world, create_object(SPHERE, create_sphere(split)));
         else if (type_of_object == PLANE)
-            add_object(world, create_object(PLANE, create_plane(split)));
+            add_object(&world, create_object(PLANE, create_plane(split)));
         else if (type_of_object == CYLINDER)
-            add_object(world, create_object(CYLINDER, create_cylinder(split)));
+            add_object(&world, create_object(CYLINDER, create_cylinder(split)));
         free(line);
     }
     return (0);
