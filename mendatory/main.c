@@ -534,6 +534,5 @@ int main(int argc, char **argv)
             add_object(&world, create_object(CYLINDER, create_cylinder(split)));
         free(line);
     }
-    printf("obelhami\n");
     return (0);
 }
