@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "minirt.h"
 
 char	**ft_free(char **ptr)
 {

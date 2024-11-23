@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "minirt.h"
 
 void    fill_coordinate(t_vec3 *object, char **coordinate)
 {

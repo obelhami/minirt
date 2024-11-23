@@ -1,8 +1,8 @@
 #ifndef MINIRT_H
 #define MINIRT_H
 
-#include "./libft/libft.h"
-#include "./get_next_line/get_next_line.h"
+#include "../src/libft/libft.h"
+#include "../src/get_next_line/get_next_line.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "minirt.h"
 
 void    add_object(t_object_container **world, t_object_container *new_object)
 {

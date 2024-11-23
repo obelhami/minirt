@@ -1,4 +1,4 @@
-#include "../minirt.h"
+#include "minirt.h"
 
 
 int	ft_strstr(char *str, char *to_find)
