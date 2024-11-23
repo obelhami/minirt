@@ -19,15 +19,15 @@ $(NAME): 	$(LIBFT) $(OBJS) $(HEADER)
 			$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-			@$(MAKE) -C libft
+			@$(MAKE) -C src/libft
 
 clean:
 			$(RM) $(OBJS)
-			$(MAKE) -C libft clean
+			$(MAKE) -C src/libft clean
 
 fclean: 	clean
 			$(RM) $(NAME)
-			$(MAKE) -C libft fclean
+			$(MAKE) -C src/libft fclean
 
 re: 		fclean $(NAME)
 
