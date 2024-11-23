@@ -15,8 +15,11 @@ int ft_dblptrlen(char **str)
 void    fill_coordinate(t_vec3 *object, char **coordinate)
 {
     object->x = ft_atof(coordinate[0]);
+    printf("object->x = %f\n", ft_atof(coordinate[0]));
     object->y = ft_atof(coordinate[1]);
+    printf("object->y = %f\n", ft_atof(coordinate[1]));
     object->z = ft_atof(coordinate[2]);
+    printf("object->z = %f\n", ft_atof(coordinate[2]));
 }
 
 void    fill_rgb(t_rgb *object, char **rgb)
@@ -337,6 +340,7 @@ t_camera    *create_camera(char **split)
     i = 0;
     while (coordinate[i])
     {
+        printf("coordinate ==> %s\n", coordinate[i]);
         if (ft_isfloat(coordinate[i]))
         {
             printf("Error: the coordinates is invalid16\n");
@@ -350,6 +354,9 @@ t_camera    *create_camera(char **split)
         exit(1);
     }
     fill_coordinate(&camera->cord, coordinate);
+    printf("camera.x == %f\n", camera->cord.x);
+    printf("camera.y == %f\n", camera->cord.y);
+    printf("camera.z == %f\n", camera->cord.z);
     orientation_vector = ft_split(split[2], ',');
     i = 0;
     while (orientation_vector[i])
@@ -484,7 +491,7 @@ int main(int argc, char **argv)
         {
             if (camera != NULL)
             {
-                printf("ERROR1\n");
+                printf("ERROR2\n");
                 return (1);
             }
             camera = create_camera(split);
@@ -515,7 +522,7 @@ int main(int argc, char **argv)
             add_object(&world, create_object(CYLINDER, create_cylinder(split)));
         else if (type_of_object == 1)
         {
-            printf("ERROR1\n");
+            printf("ERROR\n");
             exit(1);
         }
         free(line);
