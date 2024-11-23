@@ -1,5 +1,17 @@
 #include "minirt.h"
 
+int ft_dblptrlen(char **str)
+{
+    int i;
+
+    if (!str || !str[0])
+        return (0);
+    i = 0;
+    while (str[i])
+        i++;
+    return (i);
+}
+
 void    fill_coordinate(t_vec3 *object, char **coordinate)
 {
     object->x = ft_atof(coordinate[0]);
@@ -25,9 +37,9 @@ t_cylinder  *create_cylinder(char **split)
     t_cylinder  *cylinder;
     
     cylinder = malloc(sizeof(t_cylinder));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 6)
     {
-        printf("no parameter in cylinder \n");
+        printf("Error: the cylinder is invalid\n");
         exit(1);
     }
     coordinate = ft_split(split[1], ',');
@@ -101,11 +113,6 @@ t_cylinder  *create_cylinder(char **split)
         exit(1);
     }
     fill_rgb(&cylinder->rgb, rgb);
-    if (split[6])
-    {
-        printf("Error: the cylinder is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (cylinder);
 }
@@ -119,9 +126,9 @@ t_plane *create_plane(char **split)
     t_plane *plane;
 
     plane = malloc(sizeof(t_plane));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 4)
     {
-        printf("no parameter in plane \n");
+        printf("Error: the argumment of plane is invalid\n");
         exit(1);
     }
     coordinate = ft_split(split[1], ',');
@@ -163,7 +170,6 @@ t_plane *create_plane(char **split)
     i = 0;
     while (rgb[i])
     {
-        printf("rgb==>%s\n", rgb[i]);
         if (ft_ft_isdigit(rgb[i]) == 1)
         {
             printf("Error: the color of plane is invalid\n");
@@ -182,11 +188,6 @@ t_plane *create_plane(char **split)
         exit(1);
     }
     fill_rgb(&plane->rgb, rgb);
-    if (split[4])
-    {
-        printf("Error: the plane is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (plane);
 }
@@ -200,9 +201,9 @@ t_sphere    *create_sphere(char **split)
     t_sphere    *sphere;
 
     sphere = malloc(sizeof(t_sphere));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 4)
     {
-        printf("no parameter in sphere \n");
+        printf("Error: the argumment of sphere is invalid\n");
         exit(1);
     }
     coordinate = ft_split(split[1], ',');
@@ -251,11 +252,6 @@ t_sphere    *create_sphere(char **split)
         exit(1);
     }
     fill_rgb(&sphere->rgb, rgb);
-    if (split[4])
-    {
-        printf("Error: the sphere is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (sphere);
 }
@@ -269,12 +265,12 @@ t_light *create_light(char **split)
     t_light *light;
 
     light = malloc(sizeof(t_light));
-    i = 0;
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 4)
     {
-        printf("no parameter in lighting \n");
+        printf("Error: the argumment of light is invalid\n");
         exit(1);
     }
+    i = 0;
     coordinate = ft_split(split[1], ',');
     while (coordinate[i])
     {
@@ -319,11 +315,6 @@ t_light *create_light(char **split)
         exit(1);
     }
     fill_rgb(&light->rgb, rgb);
-    if (split[4])
-    {
-        printf("Error: the light is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (light);
 }
@@ -337,9 +328,9 @@ t_camera    *create_camera(char **split)
     t_camera    *camera;
 
     camera = malloc(sizeof(t_camera));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 4)
     {
-        printf("no parameter in camera \n");
+        printf("Error: the argumment of camera is invalid\n");
         exit(1);
     }
     coordinate = ft_split(split[1], ',');
@@ -384,11 +375,6 @@ t_camera    *create_camera(char **split)
         exit(1);
     }
     camera->fov = fov;
-    if (split[4])
-    {
-        printf("Error: the camera is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (camera);
 }
@@ -401,9 +387,9 @@ t_ambient   *create_ambient(char **split)
     t_ambient   *ambient;
 
     ambient = malloc(sizeof(t_ambient));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 3)
     {
-        printf("no parameter in ambient light \n");
+        printf("Error: the argumment of camera is invalid\n");
         exit(1);
     }
     i = 0;
@@ -435,11 +421,6 @@ t_ambient   *create_ambient(char **split)
         exit(1);
     }
     fill_rgb(&ambient->rgb, rgb);
-    if (split[3])
-    {
-        printf("Error: the ambient light is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (ambient);
 }
