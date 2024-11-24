@@ -329,13 +329,6 @@ t_camera    *create_camera(char **split)
     t_camera    *camera;
 
     camera = malloc(sizeof(t_camera));
-    int idx;
-    idx = 0;
-    while (split[idx])
-    {
-        printf(">> %s\n", split[idx]);
-        idx++;
-    }
     if (ft_dblptrlen(split) != 4)
     {
         printf("Error: the argumment of camera is invalid\n");
@@ -564,6 +557,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 int main(int argc, char **argv)
 {
 	t_world_setup	world_setup;
+	t_windata		windata;
 
 	world_setup.ambient = NULL;
 	world_setup.camera = NULL;
@@ -584,5 +578,8 @@ int main(int argc, char **argv)
 	}
 	if (parsing(&world_setup, argv[1]))
 		return (1);
+	if (create_window(&windata))
+		return (1);
+	mlx_loop(windata.mlx);
 	return (0);
 }

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "../src/mlx/mlx.h"
 
 #define CAMERA 2
 #define AMBIENT 3
@@ -14,6 +15,8 @@
 #define SPHERE 5
 #define PLANE 6
 #define CYLINDER 7
+
+# define ESC 65307
 
 typedef struct s_rgb
 {
@@ -79,6 +82,14 @@ typedef struct s_cylinder
 	t_rgb	rgb;
 }			t_cylinder;
 
+typedef struct s_windata {
+	void	*mlx;
+	void	*mlx_win;
+	int		height;
+	int		width;
+	double	aspect_ratio;
+}				t_windata;
+
 typedef struct s_wolrd_setup {
 	t_ambient			*ambient;
 	t_camera			*camera;
@@ -96,5 +107,6 @@ char	**ft_free(char **ptr);
 t_object_container	*create_object(int type, void *object);
 void	add_object(t_object_container **world, t_object_container *new_object);
 char	**ft_ft_split(char const *s);
+int		create_window(t_windata *window_data);
 
 #endif
