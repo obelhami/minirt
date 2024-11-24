@@ -16,11 +16,8 @@ int ft_dblptrlen(char **str)
 void    fill_coordinate(t_vec3 *object, char **coordinate)
 {
     object->x = ft_atof(coordinate[0]);
-    printf("object->x = %f\n", ft_atof(coordinate[0]));
     object->y = ft_atof(coordinate[1]);
-    printf("object->y = %f\n", ft_atof(coordinate[1]));
     object->z = ft_atof(coordinate[2]);
-    printf("object->z = %f\n", ft_atof(coordinate[2]));
 }
 
 void    fill_rgb(t_rgb *object, char **rgb)
@@ -332,6 +329,13 @@ t_camera    *create_camera(char **split)
     t_camera    *camera;
 
     camera = malloc(sizeof(t_camera));
+    int idx;
+    idx = 0;
+    while (split[idx])
+    {
+        printf(">> %s\n", split[idx]);
+        idx++;
+    }
     if (ft_dblptrlen(split) != 4)
     {
         printf("Error: the argumment of camera is invalid\n");
@@ -341,7 +345,6 @@ t_camera    *create_camera(char **split)
     i = 0;
     while (coordinate[i])
     {
-        printf("coordinate ==> %s\n", coordinate[i]);
         if (ft_isfloat(coordinate[i]))
         {
             printf("Error: the coordinates is invalid16\n");
@@ -355,9 +358,6 @@ t_camera    *create_camera(char **split)
         exit(1);
     }
     fill_coordinate(&camera->cord, coordinate);
-    printf("camera.x == %f\n", camera->cord.x);
-    printf("camera.y == %f\n", camera->cord.y);
-    printf("camera.z == %f\n", camera->cord.z);
     orientation_vector = ft_split(split[2], ',');
     i = 0;
     while (orientation_vector[i])
@@ -486,7 +486,7 @@ int main(int argc, char **argv)
     {
         if (line[0] != '\n' && line[ft_strlen(line) - 1] == '\n')
             line[ft_strlen(line) - 1] = '\0';
-        split = ft_split(line, ' ');
+        split = ft_ft_split(line);
         type_of_object = check_line(line);
         if (type_of_object == CAMERA)
         {

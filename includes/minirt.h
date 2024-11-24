@@ -89,5 +89,6 @@ int		ft_isfloat(char *str);
 char	**ft_free(char **ptr);
 t_object_container	*create_object(int type, void *object);
 void	add_object(t_object_container **world, t_object_container *new_object);
+char	**ft_ft_split(char const *s);
 
 #endif
