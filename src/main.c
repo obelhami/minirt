@@ -63,7 +63,7 @@ t_cylinder  *create_cylinder(char **split)
     orientation_vector = ft_split(split[2], ',');
     i = 0;
     while (orientation_vector[i])
-    {
+{
         if (ft_isfloat(orientation_vector[i]) ||
             (ft_atof(orientation_vector[i]) < -1.00 || ft_atof(orientation_vector[i]) > 1.00))
         {
@@ -329,13 +329,6 @@ t_camera    *create_camera(char **split)
     t_camera    *camera;
 
     camera = malloc(sizeof(t_camera));
-    int idx;
-    idx = 0;
-    while (split[idx])
-    {
-        printf(">> %s\n", split[idx]);
-        idx++;
-    }
     if (ft_dblptrlen(split) != 4)
     {
         printf("Error: the argumment of camera is invalid\n");
@@ -456,37 +449,62 @@ int check_line(char *str)
     return (0);
 }
 
-int main(int argc, char **argv)
+void	print_args(t_object_container *world)
 {
-    int fd;
-    char *line;
-    t_ambient *ambient = NULL;
-    t_camera *camera = NULL;
-    t_light *light = NULL;
-    t_object_container *world = NULL;
-    int    type_of_object;
-    char    **split;
+	t_sphere	*sphere;
+	t_plane		*plane;
+	t_cylinder	*cylinder;
 
-    line = NULL;
-    if (argc < 2)
-    {
-        printf("the number of arguments is invalid\n");
-        exit(1);
-    }
-    if (argc == 2)
-    {
-         if (!ft_strstr(argv[1], ".rt"))
-         {
-            printf("Error: the argument must be finish with .rt\n");
-            exit(1);
-         }
-    }
-    fd = open(argv[1], O_RDONLY);
-    if (fd == -1)
-    {
-        printf("the file not exist\n");
-        exit(1);
-    }
+	while (world)
+	{
+		if (world->type == SPHERE)
+		{
+			sphere = (t_sphere *)world->object;
+			printf("SPHERE:\n");
+			printf("\tcord: x=%f, y=%f, z=%f\n", sphere->cord.x,
+					sphere->cord.y, sphere->cord.z);
+			printf("\tdiameter: %f\n", sphere->diameter);
+			printf("\trgb: r=%d, g=%d, b=%d\n", sphere->rgb.red,
+					sphere->rgb.green, sphere->rgb.blue);
+		}
+		else if (world->type == PLANE)
+		{
+			plane = (t_plane *)world->object;
+			printf("PLANE:\n");
+			printf("\tcord: x=%f, y=%f, z=%f\n", plane->cord.x, plane->cord.y,
+					plane->cord.z);
+			printf("\tvector: x=%f, y=%f, z=%f\n", plane->vectors.x,
+					plane->vectors.y, plane->vectors.z);
+			printf("\trgb: r=%d, y=%d, z=%d\n", plane->rgb.red,
+					plane->rgb.green, plane->rgb.blue);
+		}
+		else if (world->type == CYLINDER)
+		{
+			cylinder = (t_cylinder *)world->object;
+			printf("CYLINDER:\n");
+			printf("\tcord: x=%f, y=%f, z=%f\n", cylinder->cord.x,
+					cylinder->cord.y, cylinder->cord.z);
+			printf("\tvector: x=%f, y=%f, z=%f\n", cylinder->vectors.x,
+					cylinder->vectors.y, cylinder->vectors.z);
+			printf("\tdiameter: %f\n", cylinder->cy_diameter);
+			printf("\theight: %f\n", cylinder->cy_height);
+			printf("\trgb: r=%d, g=%d, b=%d\n", cylinder->rgb.red,
+					cylinder->rgb.green, cylinder->rgb.blue);
+		}
+		world = world->next;
+		printf("__________________________________________________________\n");
+	}
+	printf("DONE\n");
+}
+
+int	parsing(t_world_setup *world_setup, char *config_file_name)
+{
+	int		fd;
+    int		type_of_object;
+    char	**split;
+	char	*line;
+
+	fd = open(config_file_name, O_RDONLY);
     while ((line = get_next_line(fd)) != NULL)
     {
         if (line[0] != '\n' && line[ft_strlen(line) - 1] == '\n')
@@ -495,37 +513,37 @@ int main(int argc, char **argv)
         type_of_object = check_line(line);
         if (type_of_object == CAMERA)
         {
-            if (camera != NULL)
+            if (world_setup->camera != NULL)
             {
                 printf("ERROR2\n");
                 return (1);
             }
-            camera = create_camera(split);
+            world_setup->camera = create_camera(split);
         }
         else if (type_of_object == AMBIENT)
         {
-            if (ambient != NULL)
+            if (world_setup->ambient != NULL)
             {
                 printf("ERROR\n");
                 return (1);
             }
-            ambient = create_ambient(split);
+            world_setup->ambient = create_ambient(split);
         }
         else if (type_of_object == LIGHT)
         {
-            if (light != NULL)
+            if (world_setup->light != NULL)
             {
                 printf("ERROR\n");
                 return (1);
             }
-            light = create_light(split);
+            world_setup->light = create_light(split);
         } 
         else if (type_of_object == SPHERE)
-            add_object(&world, create_object(SPHERE, create_sphere(split)));
+            add_object(&world_setup->world, create_object(SPHERE, create_sphere(split)));
         else if (type_of_object == PLANE)
-            add_object(&world, create_object(PLANE, create_plane(split)));
+            add_object(&world_setup->world, create_object(PLANE, create_plane(split)));
         else if (type_of_object == CYLINDER)
-            add_object(&world, create_object(CYLINDER, create_cylinder(split)));
+            add_object(&world_setup->world, create_object(CYLINDER, create_cylinder(split)));
         else if (type_of_object == 1)
         {
             printf("ERROR\n");
@@ -533,5 +551,35 @@ int main(int argc, char **argv)
         }
         free(line);
     }
-    return (0);
+	return (0);
+}
+
+int main(int argc, char **argv)
+{
+	t_world_setup	world_setup;
+	t_windata		windata;
+
+	world_setup.ambient = NULL;
+	world_setup.camera = NULL;
+	world_setup.light = NULL;
+	world_setup.world = NULL;
+	if (argc < 2)
+	{
+		printf("the number of arguments is invalid\n");
+		exit(1);
+	}
+	if (argc == 2)
+	{
+		if (!ft_strstr(argv[1], ".rt"))
+		{
+			printf("Error: the argument must be finish with .rt\n");
+			exit(1);
+		}
+	}
+	if (parsing(&world_setup, argv[1]))
+		return (1);
+	if (create_window(&windata))
+		return (1);
+	mlx_loop(windata.mlx);
+	return (0);
 }
