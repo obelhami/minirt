@@ -12,6 +12,7 @@ int ft_dblptrlen(char **str)
     return (i);
 }
 
+
 void    fill_coordinate(t_vec3 *object, char **coordinate)
 {
     object->x = ft_atof(coordinate[0]);
@@ -328,6 +329,13 @@ t_camera    *create_camera(char **split)
     t_camera    *camera;
 
     camera = malloc(sizeof(t_camera));
+    int idx;
+    idx = 0;
+    while (split[idx])
+    {
+        printf(">> %s\n", split[idx]);
+        idx++;
+    }
     if (ft_dblptrlen(split) != 4)
     {
         printf("Error: the argumment of camera is invalid\n");
@@ -508,7 +516,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
     {
         if (line[0] != '\n' && line[ft_strlen(line) - 1] == '\n')
             line[ft_strlen(line) - 1] = '\0';
-        split = ft_split(line, ' ');
+        split = ft_ft_split(line);
         type_of_object = check_line(line);
         if (type_of_object == CAMERA)
         {

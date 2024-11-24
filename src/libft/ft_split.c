@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: obelhami <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:55:16 by obelhami          #+#    #+#             */
-/*   Updated: 2023/11/26 14:06:47 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/11/24 20:23:24 by obelhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static size_t	ftstrlen(const char *tab, char c)
