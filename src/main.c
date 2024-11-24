@@ -482,6 +482,11 @@ int main(int argc, char **argv)
          }
     }
     fd = open(argv[1], O_RDONLY);
+    if (fd == -1)
+    {
+        printf("the file not exist\n");
+        exit(1);
+    }
     while ((line = get_next_line(fd)) != NULL)
     {
         if (line[0] != '\n' && line[ft_strlen(line) - 1] == '\n')
