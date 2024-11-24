@@ -11,7 +11,7 @@ HEADER		= includes/minirt.h
 
 CC 			= cc
 CFLAGS 		= -Wall -Wextra -Werror -I includes #-g3 -fsanitize=address
-MFLAGS		= -Lsrc/mlx -lmlx -Isrc/mlx -lXext -lX11 -lm
+MFLAGS		= -Lsrc/mlx_clone -lmlx -Isrc/mlx_clone -lXext -lX11 -lm
 RM 			= rm -f
 
 
