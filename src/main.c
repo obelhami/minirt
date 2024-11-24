@@ -1,22 +1,26 @@
-#include "../minirt.h"
+#include "minirt.h"
 
 int ft_dblptrlen(char **str)
 {
     int i;
 
-    i = 0;
     if (!str || !str[0])
-        return 0;
+        return (0);
+    i = 0;
     while (str[i])
         i++;
     return (i);
 }
 
+
 void    fill_coordinate(t_vec3 *object, char **coordinate)
 {
     object->x = ft_atof(coordinate[0]);
+    printf("object->x = %f\n", ft_atof(coordinate[0]));
     object->y = ft_atof(coordinate[1]);
+    printf("object->y = %f\n", ft_atof(coordinate[1]));
     object->z = ft_atof(coordinate[2]);
+    printf("object->z = %f\n", ft_atof(coordinate[2]));
 }
 
 void    fill_rgb(t_rgb *object, char **rgb)
@@ -37,9 +41,9 @@ t_cylinder  *create_cylinder(char **split)
     t_cylinder  *cylinder;
     
     cylinder = malloc(sizeof(t_cylinder));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 6)
     {
-        printf("no parameter in cylinder \n");
+        printf("Error: the cylinder is invalid\n");
         exit(1);
     }
     coordinate = ft_split(split[1], ',');
@@ -48,14 +52,14 @@ t_cylinder  *create_cylinder(char **split)
     {
         if (ft_isfloat(coordinate[i]))
         {
-            printf("Error: the coordinates is invalid\n");
+            printf("Error: the coordinates is invalid1\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid1\n");
+        printf("Error: the coordinates is invalid2\n");
         exit(1);
     }
     fill_coordinate(&cylinder->cord, coordinate);
@@ -73,7 +77,7 @@ t_cylinder  *create_cylinder(char **split)
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid2\n");
+        printf("Error: the coordinates is invalid3\n");
         exit(1);
     }
     fill_coordinate(&cylinder->vectors, orientation_vector);
@@ -97,27 +101,22 @@ t_cylinder  *create_cylinder(char **split)
     {
         if (ft_ft_isdigit(rgb[i]) == 1)
         {
-            printf("Error: the color is invalid1\n");
+            printf("Error: the color of cylinder is invalid\n");
             exit(1);
         }
         if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
         {
-            printf("Error: the color is invalid\n");
+            printf("Error: the color of cylinder is invalid\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid4\n");
         exit(1);
     }
     fill_rgb(&cylinder->rgb, rgb);
-    if (ft_dblptrlen(split) != 6)
-    {
-        printf("Error: the cylinder is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (cylinder);
 }
@@ -131,9 +130,9 @@ t_plane *create_plane(char **split)
     t_plane *plane;
 
     plane = malloc(sizeof(t_plane));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 4)
     {
-        printf("no parameter in plane \n");
+        printf("Error: the argumment of plane is invalid\n");
         exit(1);
     }
     coordinate = ft_split(split[1], ',');
@@ -142,14 +141,14 @@ t_plane *create_plane(char **split)
     {
         if (ft_isfloat(coordinate[i]))
         {
-            printf("Error: the coordinates is invalid\n");
+            printf("Error: the coordinates is invalid5\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid6\n");
         exit(1);
     }
     fill_coordinate(&plane->cord, coordinate);
@@ -160,14 +159,14 @@ t_plane *create_plane(char **split)
         if (ft_isfloat(orientation_vector[i]) ||
             (ft_atof(orientation_vector[i]) < -1.00 || ft_atof(orientation_vector[i]) > 1.00))
         {
-            printf("Error: the coordinates is invalid1\n");
+            printf("Error: the coordinates is invalid7\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid8\n");
         exit(1);
     }
     fill_coordinate(&plane->vectors, orientation_vector);
@@ -177,27 +176,22 @@ t_plane *create_plane(char **split)
     {
         if (ft_ft_isdigit(rgb[i]) == 1)
         {
-            printf("Error: the color is invalid1\n");
+            printf("Error: the color of plane is invalid\n");
             exit(1);
         }
         if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
         {
-            printf("Error: the color is invalid\n");
+            printf("Error: the color of plane is invalid\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid9\n");
         exit(1);
     }
     fill_rgb(&plane->rgb, rgb);
-    if (split[4])
-    {
-        printf("Error: the plane is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (plane);
 }
@@ -211,9 +205,9 @@ t_sphere    *create_sphere(char **split)
     t_sphere    *sphere;
 
     sphere = malloc(sizeof(t_sphere));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 4)
     {
-        printf("no parameter in sphere \n");
+        printf("Error: the argumment of sphere is invalid\n");
         exit(1);
     }
     coordinate = ft_split(split[1], ',');
@@ -222,14 +216,14 @@ t_sphere    *create_sphere(char **split)
     {
         if (ft_isfloat(coordinate[i]))
         {
-            printf("Error: the coordinates is invalid\n");
+            printf("Error: the coordinates is invalid10\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid11\n");
         exit(1);
     }
     fill_coordinate(&sphere->cord, coordinate);
@@ -246,27 +240,22 @@ t_sphere    *create_sphere(char **split)
     {
         if (ft_ft_isdigit(rgb[i]) == 1)
         {
-            printf("Error: the color is invalid1\n");
+            printf("Error: the color of sphere is invalid\n");
             exit(1);
         }
         if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
         {
-            printf("Error: the color is invalid\n");
+            printf("Error: the color of sphere is invalid\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid12\n");
         exit(1);
     }
     fill_rgb(&sphere->rgb, rgb);
-    if (split[4])
-    {
-        printf("Error: the sphere is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (sphere);
 }
@@ -280,25 +269,25 @@ t_light *create_light(char **split)
     t_light *light;
 
     light = malloc(sizeof(t_light));
-    i = 0;
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 4)
     {
-        printf("no parameter in lighting \n");
+        printf("Error: the argumment of light is invalid\n");
         exit(1);
     }
+    i = 0;
     coordinate = ft_split(split[1], ',');
     while (coordinate[i])
     {
         if (ft_isfloat(coordinate[i]))
         {
-            printf("Error: the coordinates of light is invalid\n");
+            printf("Error: the coordinates of light is invalid13\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid14\n");
         exit(1);
     }
     fill_coordinate(&light->cord, coordinate);
@@ -315,27 +304,21 @@ t_light *create_light(char **split)
     {
         if (ft_ft_isdigit(rgb[i]) == 1)
         {
-            printf("Error: the color is invalid1\n");
+            printf("Error: the color of light is invalid\n");
             exit(1);
         }
         if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
         {
-            printf("Error: the color is invalid\n");
-            exit(1);
-        }
+            printf("Error: the color of light is invalid\n");
+            exit(1);        }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid15\n");
         exit(1);
     }
     fill_rgb(&light->rgb, rgb);
-    if (split[4])
-    {
-        printf("Error: the camera is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (light);
 }
@@ -349,28 +332,32 @@ t_camera    *create_camera(char **split)
     t_camera    *camera;
 
     camera = malloc(sizeof(t_camera));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 4)
     {
-        printf("no parameter in camera \n");
+        printf("Error: the argumment of camera is invalid\n");
         exit(1);
     }
     coordinate = ft_split(split[1], ',');
     i = 0;
     while (coordinate[i])
-    {    
+    {
+        printf("coordinate ==> %s\n", coordinate[i]);
         if (ft_isfloat(coordinate[i]))
         {
-            printf("Error: the coordinates is invalid\n");
+            printf("Error: the coordinates is invalid16\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid17\n");
         exit(1);
     }
     fill_coordinate(&camera->cord, coordinate);
+    printf("camera.x == %f\n", camera->cord.x);
+    printf("camera.y == %f\n", camera->cord.y);
+    printf("camera.z == %f\n", camera->cord.z);
     orientation_vector = ft_split(split[2], ',');
     i = 0;
     while (orientation_vector[i])
@@ -378,14 +365,14 @@ t_camera    *create_camera(char **split)
         if (ft_isfloat(orientation_vector[i]) ||
             (ft_atof(orientation_vector[i]) < -1.00 || ft_atof(orientation_vector[i]) > 1.00))
         {
-            printf("Error: the coordinates is invalid1\n");
+            printf("Error: the coordinates is invalid18\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid19\n");
         exit(1);
     }
     fill_coordinate(&camera->vectors, orientation_vector);
@@ -396,11 +383,6 @@ t_camera    *create_camera(char **split)
         exit(1);
     }
     camera->fov = fov;
-    if (split[4])
-    {
-        printf("Error: the camera is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (camera);
 }
@@ -413,9 +395,9 @@ t_ambient   *create_ambient(char **split)
     t_ambient   *ambient;
 
     ambient = malloc(sizeof(t_ambient));
-    if (split[1] == NULL)
+    if (ft_dblptrlen(split) != 3)
     {
-        printf("no parameter in ambient light \n");
+        printf("Error: the argumment of camera is invalid\n");
         exit(1);
     }
     i = 0;
@@ -431,27 +413,22 @@ t_ambient   *create_ambient(char **split)
     {
         if (ft_ft_isdigit(rgb[i]) == 1)
         {
-            printf("Error: the color is invalid1\n");
+            printf("Error: the color of ambient is invalid\n");
             exit(1);
         }
         if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
         {
-            printf("Error: the color is invalid\n");
+            printf("Error: the color of ambient is invalid\n");
             exit(1);
         }
         i++;
     }
     if (i != 3)
     {
-        printf("Error: the coordinates is invalid\n");
+        printf("Error: the coordinates is invalid20\n");
         exit(1);
     }
     fill_rgb(&ambient->rgb, rgb);
-    if (split[3])
-    {
-        printf("Error: the ambient light is invalid\n");
-        exit(1);
-    }
     ft_free(split);
     return (ambient);
 }
@@ -459,10 +436,8 @@ t_ambient   *create_ambient(char **split)
 int check_line(char *str)
 {
     char    **split;
-
     if (str[0] == '\n')
         return (0);
-    str[ft_strlen(str) - 1] = '\0';
     split = ft_split(str, ' ');
     if (!ft_strcmp(split[0], "A"))
         return (AMBIENT);
@@ -509,13 +484,15 @@ int main(int argc, char **argv)
     fd = open(argv[1], O_RDONLY);
     while ((line = get_next_line(fd)) != NULL)
     {
+        if (line[0] != '\n' && line[ft_strlen(line) - 1] == '\n')
+            line[ft_strlen(line) - 1] = '\0';
         split = ft_split(line, ' ');
         type_of_object = check_line(line);
         if (type_of_object == CAMERA)
         {
             if (camera != NULL)
             {
-                printf("ERROR\n");
+                printf("ERROR2\n");
                 return (1);
             }
             camera = create_camera(split);
@@ -537,13 +514,18 @@ int main(int argc, char **argv)
                 return (1);
             }
             light = create_light(split);
-        }       
+        } 
         else if (type_of_object == SPHERE)
             add_object(&world, create_object(SPHERE, create_sphere(split)));
         else if (type_of_object == PLANE)
             add_object(&world, create_object(PLANE, create_plane(split)));
         else if (type_of_object == CYLINDER)
             add_object(&world, create_object(CYLINDER, create_cylinder(split)));
+        else if (type_of_object == 1)
+        {
+            printf("ERROR\n");
+            exit(1);
+        }
         free(line);
     }
     return (0);

@@ -1,10 +1,11 @@
-#include "../minirt.h"
+#include "minirt.h"
 
 float ft_atof(char *str)
 {
 	int	i;
 	float	sign;
 	double	factorial;
+	int	test;
 
 	i = 0;
 	sign = 1.0;
@@ -22,13 +23,15 @@ float ft_atof(char *str)
 		factorial = (10 * factorial) + str[i] - '0';
 		i++;
 	}
+	test = 10;
     if (str[i] == '.')
     {
         i++;
         while (str[i] >= '0' && str[i] <= '9')
         {
-            factorial = factorial + ((double)(str[i] - '0') / 10);
+            factorial = factorial + ((double)(str[i] - '0') / test);
             i++;
+			test *= 10;
         }
     }
 	return (factorial * sign);
