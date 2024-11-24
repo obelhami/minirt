@@ -2,10 +2,10 @@
 
 float ft_atof(char *str)
 {
-	int	i;
-	float	sign;
+	int		i;
+	double	sign;
 	double	factorial;
-	int	test;
+	int		test;
 
 	i = 0;
 	sign = 1.0;
@@ -34,5 +34,7 @@ float ft_atof(char *str)
 			test *= 10;
         }
     }
+	if (factorial == 0.0)
+		sign = 1.0;
 	return (factorial * sign);
 }

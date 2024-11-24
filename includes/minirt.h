@@ -15,7 +15,6 @@
 #define PLANE 6
 #define CYLINDER 7
 
-
 typedef struct s_rgb
 {
 	int	red;
@@ -79,6 +78,13 @@ typedef struct s_cylinder
 	double	cy_height;
 	t_rgb	rgb;
 }			t_cylinder;
+
+typedef struct s_wolrd_setup {
+	t_ambient			*ambient;
+	t_camera			*camera;
+	t_light				*light;
+	t_object_container	*world;
+}				t_world_setup;
 
 int		ft_strstr(char *str, char *to_find);
 int		check_line(char *str);
