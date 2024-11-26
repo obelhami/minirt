@@ -580,6 +580,7 @@ int main(int argc, char **argv)
 		return (1);
 	if (create_window(&windata))
 		return (1);
+	create_image(&windata);
 	mlx_loop(windata.mlx);
 	return (0);
 }

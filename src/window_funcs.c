@@ -17,6 +17,16 @@ int	destroy_window(void *ptr)
 	return (0);
 }
 
+int	create_image(t_windata *win_data)
+{
+	win_data->img.img = mlx_new_image(win_data->mlx,
+			win_data->width, win_data->height);
+	win_data->img.addr = mlx_get_data_addr(win_data->img.img,
+			&win_data->img.bits_per_pixel, &win_data->img.line_length,
+			&win_data->img.endian);
+	return (1);
+}
+
 int	create_window(t_windata *window_data)
 {
 	window_data->aspect_ratio = 16.0 / 9.0;
