@@ -8,6 +8,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include "../src/mlx_clone/mlx.h"
+# include <math.h>
 
 # define CAMERA 2
 # define AMBIENT 3
@@ -17,6 +18,10 @@
 # define CYLINDER 7
 
 # define ESC 65307
+
+# define T_POINT3 t_vec3
+
+#define PI 3.14159265358979323
 
 typedef struct s_img {
 	void	*img;
@@ -99,11 +104,31 @@ typedef struct s_windata {
 	t_img	img;
 }				t_windata;
 
+typedef struct s_ray {
+	T_POINT3	*orig;
+	T_POINT3	*dir;
+}				t_ray;
+
+typedef struct s_interval {
+	double	min;
+	double	max;
+}				t_interval;
+
 typedef struct s_wolrd_setup {
 	t_ambient			*ambient;
 	t_camera			*camera;
 	t_light				*light;
 	t_object_container	*world;
+	int					focal_length;
+	int					viewport_width;
+	int					viewport_height;
+	int					hfov;
+	t_vec3				viewport_u;
+	t_vec3				viewport_v;
+	t_vec3				*delta_u;
+	t_vec3				*delta_v;
+	T_POINT3			*pixel00_loc;
+	T_POINT3			v_camera;
 }				t_world_setup;
 
 int		ft_strstr(char *str, char *to_find);
@@ -118,5 +143,21 @@ void	add_object(t_object_container **world, t_object_container *new_object);
 char	**ft_ft_split(char const *s);
 int		create_window(t_windata *window_data);
 int	create_image(t_windata *win_data);
+double	degreed_to_radians(double degrees);
+int	setup_3d_world(t_windata *win, t_world_setup *world_setup);
+int	render(t_windata *win, t_world_setup *world_setup);
+t_vec3	*scalar_op(double t, t_vec3 *vec);
+t_vec3	*division_op(t_vec3 *v, double t);
+t_vec3	*addition_op(t_vec3 *v, t_vec3 *u);
+t_vec3	*subtraction_op(t_vec3 *v, t_vec3 *u);
+t_vec3	*hadamard_product(t_vec3 *v, t_vec3 *u);
+double	dot_product(t_vec3 *v, t_vec3 *u);
+t_vec3	*cross_product(t_vec3 *v, t_vec3 *u);
+double	vector_length_squared(t_vec3 *vec);
+double	vector_length(t_vec3 *vec);
+t_vec3	*unit_vector(t_vec3 *vector);
+T_POINT3	*ray_at(t_ray *ray, double t);
+void	fill_vec3(t_vec3 *vec, double x, double y, double z);
+t_vec3	*create_vec3(double x, double y, double z);
 
 #endif

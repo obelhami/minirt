@@ -63,7 +63,7 @@ t_cylinder  *create_cylinder(char **split)
     orientation_vector = ft_split(split[2], ',');
     i = 0;
     while (orientation_vector[i])
-{
+	{
         if (ft_isfloat(orientation_vector[i]) ||
             (ft_atof(orientation_vector[i]) < -1.00 || ft_atof(orientation_vector[i]) > 1.00))
         {
@@ -581,6 +581,8 @@ int main(int argc, char **argv)
 	if (create_window(&windata))
 		return (1);
 	create_image(&windata);
+	setup_3d_world(&windata, &world_setup);
+	render(&windata, &world_setup);
 	mlx_loop(windata.mlx);
 	return (0);
 }
