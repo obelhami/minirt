@@ -14,13 +14,10 @@ void	pixel_put_in_img(t_img *img, int x, int y, t_rgb *color)
 {
 	char		*dest;
 	int			rgb;
-	t_interval	interval;
 
-	interval.min = 0.000;
-	interval.max = 0.999;
-	rgb = (int)(256 * clamp(&interval, color->red)) << 16
-		| (int)(256 * clamp(&interval, color->green)) << 8
-		| (int)(256 * clamp(&interval, color->blue));
+	rgb = color->red << 16
+		| color->green << 8
+		| color->blue;
 	dest = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dest = rgb;
 }
@@ -49,7 +46,6 @@ t_rgb	*ray_color(t_ray *ray)
 	t_rgb		*rgb;
 	t_sphere	sphere;
 
-	(void)ray;
 	rgb = malloc(sizeof(t_rgb));
 	if (rgb == NULL)
 		return (NULL);
