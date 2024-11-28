@@ -5,10 +5,8 @@ int	setup_3d_world(t_windata *win, t_world_setup *world_setup)
 	double		tan_theta;
 	T_POINT3	*v_upper_left;
 
-	//world_setup->hfov = 150;
-	//fill_vec3(&world_setup->v_camera, 0.0, 0.0, 0.0);
 	world_setup->focal_length = 1.0;
-	tan_theta = tan(degrees_to_radians(world_setup->camera->fov) / 2);
+	tan_theta = tan(degrees_to_radians(world_setup->camera->hfov) / 2);
 	world_setup->viewport_width = 2 * tan_theta * world_setup->focal_length;
 	world_setup->viewport_height = world_setup->viewport_width
 			/ ((double)win->width / win->height);

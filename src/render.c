@@ -15,53 +15,32 @@ void	pixel_put_in_img(t_img *img, int x, int y, t_rgb *color)
 	char		*dest;
 	int			rgb;
 
-	rgb = color->red << 16
-		| color->green << 8
-		| color->blue;
+	rgb = color->r << 16
+		| color->g << 8
+		| color->b;
 	dest = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dest = rgb;
 }
 
-int	hit_sphere(t_sphere *sphere, t_ray *ray)
+t_rgb	*ray_color(t_ray *ray, t_object_container *world)
 {
-	double	a;
-	double	b;
-	double	c;
-	double	delta;
-	t_vec3	*oc;
+	t_rgb			*color;
+	t_interval		interval;
+	t_hit_record	rec;
 
-	oc = subtraction_op(&sphere->cord, ray->orig);
-	a = dot_product(ray->dir, ray->dir);
-	b = -2.0 * dot_product(ray->dir, oc);
-	c = dot_product(oc, oc) - (sphere->diameter * sphere->diameter);
-	delta = (b * b) - (4 * a * c);
-	if (delta >= 0)
-		return (1);
-	else
-		return (0);
-}
-
-t_rgb	*ray_color(t_ray *ray)
-{
-	t_rgb		*rgb;
-	t_sphere	sphere;
-
-	rgb = malloc(sizeof(t_rgb));
-	if (rgb == NULL)
+	color = malloc(sizeof(t_rgb));
+	if (color == NULL)
 		return (NULL);
-	fill_vec3(&sphere.cord, 0.0, 0.0, -1.0);
-	sphere.diameter = 0.5;
-	if (hit_sphere(&sphere, ray))
+	interval.min = 0;
+	interval.max = INFINITY;
+	if (hit_any_object(world, interval, &rec, ray))
 	{
-		rgb->red = 0;
-		rgb->green = 255;
-		rgb->blue = 0;
-		return (rgb);
+		return (rec.color);
 	}
-	rgb->red = 255;
-	rgb->green = 255;
-	rgb->blue = 255;
-	return (rgb);
+	color->r = 255;
+	color->g = 255;
+	color->b = 255;
+	return (color);
 }
 
 int	render(t_windata *win, t_world_setup *world_setup)
@@ -83,7 +62,7 @@ int	render(t_windata *win, t_world_setup *world_setup)
 							scalar_op(idx, world_setup->delta_v)));
 			ray.orig = &world_setup->v_camera;
 			ray.dir = subtraction_op(pixel_center, &world_setup->v_camera);
-			pixel_color = ray_color(&ray);
+			pixel_color = ray_color(&ray, world_setup->world);
 			pixel_put_in_img(&win->img, jdx, idx, pixel_color);
 			jdx++;
 		}

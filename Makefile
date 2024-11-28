@@ -1,10 +1,11 @@
 NAME 		= minirt
 
 MEND_FILES = main.c ft_strstr.c ft_strcmp.c ft_isdigit.c ft_atof.c \
-			ft_free.c ft_add_back.c get_next_line/get_next_line.c  \
+			ft_free.c get_next_line/get_next_line.c  \
 			get_next_line/get_next_line_utils.c ft_ft_split.c \
 			window_funcs.c vector_utils.c setup_3d_world.c render.c \
-			degrees_to_radians.c
+			degrees_to_radians.c world_funcs.c sphere_funcs.c ft_dblptrlen.c \
+			parsing_utils.c
 SRCS = $(addprefix src/, $(MEND_FILES))
 OBJS = $(SRCS:.c=.o)
 LIBFT 		= src/libft/libft.a
