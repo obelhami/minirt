@@ -433,7 +433,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 		{
 			if (world_setup->ambient != NULL)
 			{
-				printf("ERROR\n");
+				printf("ERROR1\n");
 				return (1);
 			}
 			world_setup->ambient = create_ambient(split);
@@ -442,7 +442,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 		{
 			if (world_setup->light != NULL)
 			{
-				printf("ERROR\n");
+				printf("ERROR3\n");
 				return (1);
 			}
 			world_setup->light = create_light(split);
@@ -455,7 +455,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 			add_object(&world_setup->world, create_object(CYLINDER, create_cylinder(split)));
 		else if (type_of_object == 1)
 		{
-			printf("ERROR\n");
+			printf("ERROR6\n");
 			exit(1);
 		}
 		free(line);

@@ -22,5 +22,6 @@ int	setup_3d_world(t_windata *win, t_world_setup *world_setup)
 			v_upper_left->x + (0.5 * world_setup->delta_u->x),
 			v_upper_left->y + (0.5 * world_setup->delta_v->y),
 			v_upper_left->z);
+	world_setup->samples_per_pixel = 10;
 	return (0);
 }

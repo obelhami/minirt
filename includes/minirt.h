@@ -148,6 +148,7 @@ typedef struct s_wolrd_setup {
 	t_vec3				*delta_v;
 	T_POINT3			*pixel00_loc;
 	T_POINT3			v_camera;
+	int					samples_per_pixel;
 }				t_world_setup;
 
 int					ft_strstr(char *str, char *to_find);
@@ -187,5 +188,9 @@ BOOL				hit_sphere(t_sphere *sphere, t_interval interval,
 int					ft_dblptrlen(char **str);
 void				fill_rgb(t_rgb *object, char **rgb);
 void				fill_coordinate(t_vec3 *object, char **coordinate);
+double				random_double(void);
+double				interval_random_double(t_interval interval);
+BOOL				hit_plane(t_plane *plane, t_interval interval,
+					t_hit_record *rec, t_ray *ray);
 
 #endif
