@@ -466,7 +466,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 int main(int argc, char **argv)
 {
 	t_world_setup	world_setup;
-	// t_windata		windata;
+	t_windata		windata;
 
 	world_setup.ambient = NULL;
 	world_setup.camera = NULL;
