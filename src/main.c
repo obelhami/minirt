@@ -340,7 +340,7 @@ int check_line(char *str)
 	char	**split;
 	if (str[0] == '\n')
 		return (0);
-	split = ft_split(str, ' ');
+	split = ft_ft_split(str);
 	if (!ft_strcmp(split[0], "A"))
 		return (AMBIENT);
 	else if (!ft_strcmp(split[0], "C"))
@@ -358,53 +358,53 @@ int check_line(char *str)
 	return (0);
 }
 
-/*void	print_args(t_object_container *world)
-{
-	t_sphere	*sphere;
-	t_plane		*plane;
-	t_cylinder	*cylinder;
+// void	print_args(t_object_container *world)
+// {
+// 	t_sphere	*sphere;
+// 	t_plane		*plane;
+// 	t_cylinder	*cylinder;
 
-	while (world)
-	{
-		if (world->type == SPHERE)
-		{
-			sphere = (t_sphere *)world->object;
-			printf("SPHERE:\n");
-			printf("\tcord: x=%f, y=%f, z=%f\n", sphere->cord.x,
-					sphere->cord.y, sphere->cord.z);
-			printf("\tdiameter: %f\n", sphere->diameter);
-			printf("\trgb: r=%d, g=%d, b=%d\n", sphere->rgb.red,
-					sphere->rgb.green, sphere->rgb.blue);
-		}
-		else if (world->type == PLANE)
-		{
-			plane = (t_plane *)world->object;
-			printf("PLANE:\n");
-			printf("\tcord: x=%f, y=%f, z=%f\n", plane->cord.x, plane->cord.y,
-					plane->cord.z);
-			printf("\tvector: x=%f, y=%f, z=%f\n", plane->vectors.x,
-					plane->vectors.y, plane->vectors.z);
-			printf("\trgb: r=%d, y=%d, z=%d\n", plane->rgb.red,
-					plane->rgb.green, plane->rgb.blue);
-		}
-		else if (world->type == CYLINDER)
-		{
-			cylinder = (t_cylinder *)world->object;
-			printf("CYLINDER:\n");
-			printf("\tcord: x=%f, y=%f, z=%f\n", cylinder->cord.x,
-					cylinder->cord.y, cylinder->cord.z);
-			printf("\tvector: x=%f, y=%f, z=%f\n", cylinder->vectors.x,
-					cylinder->vectors.y, cylinder->vectors.z);
-			printf("\tdiameter: %f\n", cylinder->cy_diameter);
-			printf("\theight: %f\n", cylinder->cy_height);
-			printf("\trgb: r=%d, g=%d, b=%d\n", cylinder->rgb.red,
-					cylinder->rgb.green, cylinder->rgb.blue);
-		}
-		world = world->next;
-		printf("__________________________________________________________\n");
-	}
-	printf("DONE\n");
-}*/
+// 	while (world)
+// 	{
+// 		if (world->type == SPHERE)
+// 		{
+// 			sphere = (t_sphere *)world->object;
+// 			printf("SPHERE:\n");
+// 			printf("\tcord: x=%f, y=%f, z=%f\n", sphere->cord.x,
+// 					sphere->cord.y, sphere->cord.z);
+// 			printf("\tdiameter: %f\n", sphere->diameter);
+// 			printf("\trgb: r=%d, g=%d, b=%d\n", sphere->rgb.red,
+// 					sphere->rgb.green, sphere->rgb.blue);
+// 		}
+// 		else if (world->type == PLANE)
+// 		{
+// 			plane = (t_plane *)world->object;
+// 			printf("PLANE:\n");
+// 			printf("\tcord: x=%f, y=%f, z=%f\n", plane->cord.x, plane->cord.y,
+// 					plane->cord.z);
+// 			printf("\tvector: x=%f, y=%f, z=%f\n", plane->vectors.x,
+// 					plane->vectors.y, plane->vectors.z);
+// 			printf("\trgb: r=%d, y=%d, z=%d\n", plane->rgb.red,
+// 					plane->rgb.green, plane->rgb.blue);
+// 		}
+// 		else if (world->type == CYLINDER)
+// 		{
+// 			cylinder = (t_cylinder *)world->object;
+// 			printf("CYLINDER:\n");
+// 			printf("\tcord: x=%f, y=%f, z=%f\n", cylinder->cord.x,
+// 					cylinder->cord.y, cylinder->cord.z);
+// 			printf("\tvector: x=%f, y=%f, z=%f\n", cylinder->vectors.x,
+// 					cylinder->vectors.y, cylinder->vectors.z);
+// 			printf("\tdiameter: %f\n", cylinder->cy_diameter);
+// 			printf("\theight: %f\n", cylinder->cy_height);
+// 			printf("\trgb: r=%d, g=%d, b=%d\n", cylinder->rgb.red,
+// 					cylinder->rgb.green, cylinder->rgb.blue);
+// 		}
+// 		world = world->next;
+// 		printf("__________________________________________________________\n");
+// 	}
+// 	printf("DONE\n");
+// }
 
 int	parsing(t_world_setup *world_setup, char *config_file_name)
 {
@@ -466,7 +466,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 int main(int argc, char **argv)
 {
 	t_world_setup	world_setup;
-	t_windata		windata;
+	// t_windata		windata;
 
 	world_setup.ambient = NULL;
 	world_setup.camera = NULL;
