@@ -30,7 +30,7 @@ int	create_image(t_windata *win_data)
 int	create_window(t_windata *window_data)
 {
 	window_data->aspect_ratio = 16.0 / 9.0;
-	window_data->width = 1500;
+	window_data->width = 900;
 	window_data->height = (int)(window_data->width / window_data->aspect_ratio);
 	if (window_data->height <  1)
 		window_data->height = 1;
