@@ -46,6 +46,14 @@ BOOL	hit_any_object(t_object_container *world, t_interval interval,
 				interval.max = rec->t;
 			}
 		}
+		else if (world->type == CYLINDER)
+		{
+			if (hit_cylinder((t_cylinder *)world->object, interval, rec, ray))
+			{
+				hit_anything = TRUE;
+				interval.max = rec->t;
+			}
+		}
 		else if (world->type == PLANE)
 		{
 			if (hit_plane((t_plane *)world->object, interval, rec, ray))

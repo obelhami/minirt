@@ -12,7 +12,7 @@ BOOL	hit_plane(t_plane *plane, t_interval interval, t_hit_record *rec,
 		return (FALSE);
 	diff = subtraction_op(&plane->point_cord, ray->orig);
 	root = dot_product(diff, &plane->normal_vec) / denominator;
-	if (root < interval.min || root >= interval.max || root < 0)
+	if (root < interval.min || root >= interval.max)
 		return (FALSE);
 	rec->t = root;
 	rec->point = ray_at(ray, rec->t);

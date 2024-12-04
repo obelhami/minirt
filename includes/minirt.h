@@ -113,6 +113,7 @@ typedef struct s_cylinder
 	double	diameter;
 	double	height;
 	t_rgb	color;
+	double	radius;
 }				t_cylinder;
 
 typedef struct s_windata {
@@ -191,6 +192,8 @@ void				fill_coordinate(t_vec3 *object, char **coordinate);
 double				random_double(void);
 double				interval_random_double(t_interval interval);
 BOOL				hit_plane(t_plane *plane, t_interval interval,
+					t_hit_record *rec, t_ray *ray);
+BOOL				hit_cylinder(t_cylinder *cylinder, t_interval interval,
 					t_hit_record *rec, t_ray *ray);
 
 #endif
