@@ -143,8 +143,8 @@ typedef struct s_wolrd_setup {
 	double				focal_length;
 	double				viewport_width;
 	double				viewport_height;
-	t_vec3				viewport_u;
-	t_vec3				viewport_v;
+	t_vec3				*viewport_u;
+	t_vec3				*viewport_v;
 	t_vec3				*delta_u;
 	t_vec3				*delta_v;
 	T_POINT3			*pixel00_loc;
