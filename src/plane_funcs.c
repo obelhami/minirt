@@ -16,7 +16,7 @@ BOOL	hit_plane(t_plane *plane, t_interval interval, t_hit_record *rec,
 		return (FALSE);
 	rec->t = root;
 	rec->point = ray_at(ray, rec->t);
-	rec->normal = &plane->normal_vec;
+	set_normal_against_ray(ray, &plane->normal_vec);
 	rec->color = &plane->color;
 	return (TRUE);
 }

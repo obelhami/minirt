@@ -195,5 +195,9 @@ BOOL				hit_plane(t_plane *plane, t_interval interval,
 					t_hit_record *rec, t_ray *ray);
 BOOL				hit_cylinder(t_cylinder *cylinder, t_interval interval,
 					t_hit_record *rec, t_ray *ray);
+void				set_normal_against_ray(t_ray *ray, t_vec3 *normal);
+BOOL				closeto_zero(double value);
+void				get_bases_centers(t_cylinder *cylinder, T_POINT3 **upper_base,
+					T_POINT3 **lower_base);
 
 #endif

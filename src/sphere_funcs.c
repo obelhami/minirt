@@ -94,6 +94,7 @@ BOOL	hit_sphere(t_sphere *sphere, t_interval interval, t_hit_record *rec,
 	rec->point = ray_at(ray, rec->t);
 	rec->normal = division_op(subtraction_op(rec->point, &sphere->center),
 			sphere->radius);
+	set_normal_against_ray(ray, rec->normal);
 	rec->color = &sphere->color;
 	return (TRUE);
 }
