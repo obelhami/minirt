@@ -490,7 +490,6 @@ int main(int argc, char **argv)
 		return (1);
 	if (create_window(&windata))
 		return (1);
-	create_image(&windata);
 	setup_3d_world(&windata, &world_setup);
 	render(&windata, &world_setup);
 	mlx_loop(windata.mlx);

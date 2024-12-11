@@ -10,16 +10,14 @@ int	clamp(double min, double max, int var)
 		return (var);
 }
 
-void	pixel_put_in_img(t_img *img, int x, int y, t_rgb *color)
+void	pixel_put_in_img(t_windata *win, int x, int y, t_rgb *color)
 {
-	char		*dest;
 	int			rgb;
 
 	rgb = clamp(0.0, 255.0, color->r) << 16
 		| clamp(0.0, 255.0, color->g) << 8
 		| clamp(0.0, 255.0, color->b);
-	dest = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dest = rgb;
+	mlx_pixel_put(win->mlx, win->mlx_win, x, y, rgb);
 }
 
 t_rgb	*colors_addition(t_rgb *color1, t_rgb *color2)
@@ -56,27 +54,69 @@ double	max(double min, double value)
 		return (value);
 }
 
+BOOL	hit_light(t_object_container *world, t_ray *ray)
+{
+	t_interval		interval;
+	t_hit_record	rec;
+
+	interval.min = 0.0001;
+	interval.max = INFINITY;
+	while (world != NULL)
+	{
+		if (world->type == SPHERE)
+		{
+			if (hit_sphere((t_sphere *)world->object, interval, &rec, ray))
+				return (FALSE);
+		}
+		else if (world->type == CYLINDER)
+		{
+			if (hit_cylinder((t_cylinder *)world->object, interval, &rec, ray))
+				return (FALSE);
+		}
+		else if (world->type == PLANE)
+		{
+			if (hit_plane((t_plane *)world->object, interval, &rec, ray))
+				return (FALSE);
+		}
+		world = world->next;
+	}
+	return (TRUE);
+}
+
+double	calculate_light(t_object_container *world, t_hit_record *rec,
+		t_ray *ray, t_light *light, t_ambient *ambient)
+{
+	t_vec3			*light_dir;
+	double			diffuse;
+	double			specular;
+	t_ray			light_ray;
+
+	(void)world;
+	light_dir = unit_vector(subtraction_op(&light->cord, rec->point));
+	diffuse = max(0.0, dot_product(light_dir, rec->normal))
+		* light->brightness;
+	light_ray.orig = rec->point;
+	light_ray.dir = light_dir;
+	if (diffuse > 0.0 && hit_light(world, &light_ray) == FALSE)
+		return (ambient->lighting_ratio);
+	specular = max(0.0, dot_product(reflect_vec(light_dir, rec->normal),
+		scalar_op(1.0, ray->dir))) * light->brightness;
+	return (diffuse + ambient->lighting_ratio + specular);
+}
+
 t_rgb	*ray_color(t_ray *ray, t_object_container *world, t_light *light,
 		t_ambient *ambient)
 {
 	t_rgb			*color;
 	t_interval		interval;
 	t_hit_record	rec;
-	double			diffuse;
-	double			specular;
-	t_vec3			*light_dir;
-
+	
 	interval.min = 0;
 	interval.max = INFINITY;
 	if (hit_any_object(world, interval, &rec, ray))
 	{
-		light_dir = unit_vector(subtraction_op(&light->cord, rec.point));
-		diffuse = max(0.0, dot_product(light_dir, rec.normal))
-			* light->brightness;
-		specular = max(0.0, dot_product(reflect_vec(light_dir, rec.normal),
-					scalar_op(1.0, ray->dir))) * light->brightness;
-		color = scale_color(diffuse + ambient->lighting_ratio + specular,
-				rec.color);
+		color = scale_color(calculate_light(world, &rec, ray, light, ambient),
+			rec.color);
 		return (color);
 	}
 	color = malloc(sizeof(t_rgb));
@@ -115,7 +155,6 @@ int	render(t_windata *win, t_world_setup *world_setup)
 	t_ray		*ray;
 
 	idx = 0;
-	
 	while (idx < win->height)
 	{
 		jdx = 0;
@@ -136,21 +175,11 @@ int	render(t_windata *win, t_world_setup *world_setup)
 							world_setup->ambient));
 				sample++;
 			}
-			pixel_put_in_img(&win->img, jdx, idx, scale_color(
+			pixel_put_in_img(win, jdx, idx, scale_color(
 						1.0 / world_setup->samples_per_pixel, pixel_color));
 			jdx++;
 		}
 		idx++;
 	}
-	mlx_put_image_to_window(win->mlx, win->mlx_win, win->img.img, 0, 0);
 	return (0);
 }
-
-/*	pixel_center = addition_op(world_setup->pixel00_loc,
-					addition_op(scalar_op(jdx, world_setup->delta_u),
-							scalar_op(idx, world_setup->delta_v)));
-		ray.orig = &world_setup->v_camera;
-			ray.dir = subtraction_op(pixel_center, &world_setup->v_camera);
-			pixel_color = ray_color(&ray, world_setup->world);
-			pixel_put_in_img(&win->img, jdx, idx, pixel_color);*/
-
