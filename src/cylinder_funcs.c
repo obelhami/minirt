@@ -38,7 +38,7 @@ void	get_body_rec(t_cylinder *cylinder, t_interval interval,
 	rec->normal = subtraction_op(scalar_op(root, ray->dir),
 			scalar_op(distance, &cylinder->axis_vec));
 	rec->normal = unit_vector(subtraction_op(rec->normal, base));
-	set_normal_against_ray(ray, rec->normal);
+	set_normal_against_ray(ray, rec);
 }
 
 void	get_base_rec(t_cylinder *cylinder, t_interval interval, t_ray *ray,
@@ -80,15 +80,15 @@ BOOL	hit_cylinder(t_cylinder *cylinder, t_interval interval,
 	t_hit_record	body_rec;
 	t_hit_record	upperbase_rec;
 	t_hit_record	lowerbase_rec;
-	T_POINT3		*upper_base;
+	T_POINT3		*upper_base; //TODO: add *_base to the cylinder struct
 	T_POINT3		*lower_base;
 	t_hit_record	*temp_rec;
 
 	body_rec = (t_hit_record){.t = INFINITY};
 	upperbase_rec = (t_hit_record){.t = INFINITY, .normal = &cylinder->axis_vec};
 	lowerbase_rec = (t_hit_record){.t = INFINITY, .normal = &cylinder->axis_vec};
-	set_normal_against_ray(ray, lowerbase_rec.normal);
-	set_normal_against_ray(ray, upperbase_rec.normal);
+	set_normal_against_ray(ray, &lowerbase_rec);
+	set_normal_against_ray(ray, &upperbase_rec);
 	get_bases_centers(cylinder, &upper_base, &lower_base);
 	get_body_rec(cylinder, interval, ray, lower_base, &body_rec);
 	get_base_rec(cylinder, interval, ray, upper_base, &upperbase_rec);

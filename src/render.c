@@ -1,11 +1,11 @@
 #include "minirt.h"
 
-int	clamp(t_interval *interval, int var)
+int	clamp(double min, double max, int var)
 {
-	if (var < interval->min)
-		return (interval->min);
-	else if (var > interval->max)
-		return (interval->max);
+	if (var <= min)
+		return (min);
+	else if (var >= max)
+		return (max);
 	else
 		return (var);
 }
@@ -14,34 +14,12 @@ void	pixel_put_in_img(t_img *img, int x, int y, t_rgb *color)
 {
 	char		*dest;
 	int			rgb;
-	t_interval	interval;
 
-	interval.min = 0.0;
-	interval.max = 255.0;
-	rgb = clamp(&interval, color->r) << 16
-		| clamp(&interval, color->g) << 8
-		| clamp(&interval, color->b);
+	rgb = clamp(0.0, 255.0, color->r) << 16
+		| clamp(0.0, 255.0, color->g) << 8
+		| clamp(0.0, 255.0, color->b);
 	dest = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dest = rgb;
-}
-
-t_rgb	*ray_color(t_ray *ray, t_object_container *world)
-{
-	t_rgb			*color;
-	t_interval		interval;
-	t_hit_record	rec;
-
-	color = malloc(sizeof(t_rgb));
-	if (color == NULL)
-		return (NULL);
-	interval.min = 0;
-	interval.max = INFINITY;
-	if (hit_any_object(world, interval, &rec, ray))
-		return (rec.color);
-	color->r = 255;
-	color->g = 255;
-	color->b = 255;
-	return (color);
 }
 
 t_rgb	*colors_addition(t_rgb *color1, t_rgb *color2)
@@ -68,6 +46,46 @@ t_rgb	*scale_color(double scalar, t_rgb *color)
 	resulted_color->g = scalar * color->g;
 	resulted_color->b = scalar * color->b;
 	return (resulted_color);
+}
+
+double	max(double min, double value)
+{
+	if (value < min)
+		return (min);
+	else
+		return (value);
+}
+
+t_rgb	*ray_color(t_ray *ray, t_object_container *world, t_light *light,
+		t_ambient *ambient)
+{
+	t_rgb			*color;
+	t_interval		interval;
+	t_hit_record	rec;
+	double			diffuse;
+	double			specular;
+	t_vec3			*light_dir;
+
+	interval.min = 0;
+	interval.max = INFINITY;
+	if (hit_any_object(world, interval, &rec, ray))
+	{
+		light_dir = unit_vector(subtraction_op(&light->cord, rec.point));
+		diffuse = max(0.0, dot_product(light_dir, rec.normal))
+			* light->brightness;
+		specular = max(0.0, dot_product(reflect_vec(light_dir, rec.normal),
+					scalar_op(1.0, ray->dir))) * light->brightness;
+		color = scale_color(diffuse + ambient->lighting_ratio + specular,
+				rec.color);
+		return (color);
+	}
+	color = malloc(sizeof(t_rgb));
+	if (color == NULL)
+		return (NULL);
+	color->r = 0;
+	color->g = 0;
+	color->b = 0;
+	return (color);
 }
 
 t_ray	*get_ray(int jdx, int idx, t_world_setup *world_setup)
@@ -114,7 +132,8 @@ int	render(t_windata *win, t_world_setup *world_setup)
 			{
 				ray = get_ray(jdx, idx, world_setup);
 				pixel_color = colors_addition(pixel_color,
-						ray_color(ray, world_setup->world));
+						ray_color(ray, world_setup->world, world_setup->light,
+							world_setup->ambient));
 				sample++;
 			}
 			pixel_put_in_img(&win->img, jdx, idx, scale_color(

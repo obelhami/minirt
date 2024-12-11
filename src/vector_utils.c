@@ -120,3 +120,15 @@ t_vec3	*create_vec3(double x, double y, double z)
 	v->z = z;
 	return (v);
 }
+
+t_vec3	*reflect_vec(t_vec3 *incident_vec, t_vec3 *surface_normal)
+{
+	t_vec3	*reflected_vec;
+
+	reflected_vec = subtraction_op(incident_vec,
+			scalar_op(-2.0 * dot_product(incident_vec, surface_normal),
+				surface_normal));
+	if (reflected_vec == NULL)
+		return (NULL);
+	return (reflected_vec);
+}
