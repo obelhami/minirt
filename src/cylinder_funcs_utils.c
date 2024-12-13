@@ -1,7 +1,6 @@
 #include "minirt.h"
 
-void	get_bases_centers(t_cylinder *cylinder, T_POINT3 **upper_base,
-		T_POINT3 **lower_base)
+void	get_bases_centers(t_cylinder *cylinder)
 {
 	T_POINT3	*base1;
 	T_POINT3	*base2;
@@ -13,17 +12,17 @@ void	get_bases_centers(t_cylinder *cylinder, T_POINT3 **upper_base,
 	if (dot_product(subtraction_op(&cylinder->center, base1),
 				&cylinder->axis_vec) > 0.0)
 	{
-		*lower_base = base1;
-		*upper_base = base2;
+		cylinder->lower_base = base1;
+		cylinder->upper_base = base2;
 	}
 	else
 	{
-		*lower_base = base2;
-		*upper_base = base1;
+		cylinder->lower_base = base2;
+		cylinder->upper_base = base1;
 	}
 }
 
-BOOL	closeto_zero(double value)
+inline BOOL	closeto_zero(double value)
 {
 	value = fabs(value); // TODO: create ft_fabs
 	if (value < 1e-10)

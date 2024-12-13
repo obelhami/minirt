@@ -89,6 +89,7 @@ t_cylinder  *create_cylinder(char **split)
 	fill_rgb(&cylinder->color, rgb);
 	ft_free(split);
 	cylinder->radius = cylinder->diameter / 2;
+	get_bases_centers(cylinder);
 	return (cylinder);
 }
 

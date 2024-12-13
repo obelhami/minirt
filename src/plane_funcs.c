@@ -1,14 +1,16 @@
 #include "minirt.h"
 
-BOOL	hit_plane(t_plane *plane, t_interval interval, t_hit_record *rec,
+BOOL	hit_plane(void *ptr, t_interval interval, t_hit_record *rec,
 		t_ray *ray)
 {
+	t_plane	*plane;
 	double	root;
 	double	denominator;
 	t_vec3	*diff;
 
+	plane = (t_plane *)ptr;
 	denominator = dot_product(&plane->normal_vec, ray->dir);
-	if (denominator == 0)
+	if (closeto_zero(denominator))
 		return (FALSE);
 	diff = subtraction_op(&plane->point_cord, ray->orig);
 	root = dot_product(diff, &plane->normal_vec) / denominator;

@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-t_vec3	*scalar_op(double t, t_vec3 *vec)
+inline t_vec3	*scalar_op(double t, t_vec3 *vec)
 {
 	t_vec3	*scaled_vec;
 
@@ -13,12 +13,12 @@ t_vec3	*scalar_op(double t, t_vec3 *vec)
 	return (scaled_vec);
 }
 
-t_vec3	*division_op(t_vec3 *v, double t)
+inline t_vec3	*division_op(t_vec3 *v, double t)
 {
 	return (scalar_op(1/t, v));
 }
 
-t_vec3	*addition_op(t_vec3 *v, t_vec3 *u)
+inline t_vec3	*addition_op(t_vec3 *v, t_vec3 *u)
 {
 	t_vec3	*resultant_vec;
 
@@ -31,7 +31,7 @@ t_vec3	*addition_op(t_vec3 *v, t_vec3 *u)
 	return (resultant_vec);
 }
 
-t_vec3	*subtraction_op(t_vec3 *v, t_vec3 *u)
+inline t_vec3	*subtraction_op(t_vec3 *v, t_vec3 *u)
 {
 	t_vec3	*difference_vec;
 
@@ -44,7 +44,7 @@ t_vec3	*subtraction_op(t_vec3 *v, t_vec3 *u)
 	return (difference_vec);
 }
 
-t_vec3	*hadamard_product(t_vec3 *v, t_vec3 *u)
+inline t_vec3	*hadamard_product(t_vec3 *v, t_vec3 *u)
 {
 	t_vec3	*hadamard_product_vec;
 
@@ -57,12 +57,12 @@ t_vec3	*hadamard_product(t_vec3 *v, t_vec3 *u)
 	return (hadamard_product_vec);
 }
 
-double	dot_product(t_vec3 *v, t_vec3 *u)
+inline double	dot_product(t_vec3 *v, t_vec3 *u)
 {
 	return ((v->x * u->x) + (v->y * u->y) + (v->z * u->z));
 }
 
-t_vec3	*cross_product(t_vec3 *v, t_vec3 *u)
+inline t_vec3	*cross_product(t_vec3 *v, t_vec3 *u)
 {
 	t_vec3	*cross_product_vec;
 
@@ -75,7 +75,7 @@ t_vec3	*cross_product(t_vec3 *v, t_vec3 *u)
 	return (cross_product_vec);
 }
 
-double	vector_length_squared(t_vec3 *vec)
+inline double	vector_length_squared(t_vec3 *vec)
 {
 	double	length_squared;
 
@@ -83,12 +83,12 @@ double	vector_length_squared(t_vec3 *vec)
 	return (length_squared);
 }
 
-double	vector_length(t_vec3 *vec)
+inline double	vector_length(t_vec3 *vec)
 {
 	return (sqrt(vector_length_squared(vec)));
 }
 
-t_vec3	*unit_vector(t_vec3 *vector)
+inline t_vec3	*unit_vector(t_vec3 *vector)
 {
 	t_vec3	*unit_vector;
 
@@ -96,19 +96,19 @@ t_vec3	*unit_vector(t_vec3 *vector)
 	return (unit_vector);
 }
 
-T_POINT3	*ray_at(t_ray *ray, double t)
+inline T_POINT3	*ray_at(t_ray *ray, double t)
 {
 	return (addition_op(ray->orig, scalar_op(t, ray->dir)));
 }
 
-void	fill_vec3(t_vec3 *vec, double x, double y, double z)
+inline void	fill_vec3(t_vec3 *vec, double x, double y, double z)
 {
 	vec->x = x;
 	vec->y = y;
 	vec->z = z;
 }
 
-t_vec3	*create_vec3(double x, double y, double z)
+inline t_vec3	*create_vec3(double x, double y, double z)
 {
 	t_vec3	*v;
 
@@ -121,7 +121,7 @@ t_vec3	*create_vec3(double x, double y, double z)
 	return (v);
 }
 
-t_vec3	*reflect_vec(t_vec3 *incident_vec, t_vec3 *surface_normal)
+inline t_vec3	*reflect_vec(t_vec3 *incident_vec, t_vec3 *surface_normal)
 {
 	t_vec3	*reflected_vec;
 

@@ -2,7 +2,6 @@
 
 int	catch_keypress(int keycode, void *param)
 {
-	/*TODO: free*/
 	(void)param;
 	if (keycode == ESC)
 		exit(1);
@@ -11,7 +10,6 @@ int	catch_keypress(int keycode, void *param)
 
 int	destroy_window(void *ptr)
 {
-	/*TODO: free*/
 	(void)ptr;
 	exit(1);
 	return (0);

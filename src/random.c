@@ -1,6 +1,6 @@
 #include "minirt.h"
 
-double random_double(void)
+inline double random_double(void)
 {
 	static unsigned long int next = 12345;
     unsigned long int a;
@@ -14,7 +14,7 @@ double random_double(void)
     return ((double)next / (double)m);
 }
 
-double	interval_random_double(t_interval interval)
+inline double	interval_random_double(t_interval interval)
 {
 	return (interval.min + ((interval.max - interval.min) * random_double()));
 }

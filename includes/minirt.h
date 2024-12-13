@@ -71,12 +71,6 @@ typedef struct s_light
 	t_rgb	color;
 }				t_light;
 
-typedef struct s_object_container
-{
-	int							type;
-	void						*object;
-	struct s_object_container	*next;
-}				t_object_container;
 
 typedef	struct s_camera
 {
@@ -108,12 +102,14 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	t_vec3	center;
-	t_vec3	axis_vec;
-	double	diameter;
-	double	height;
-	t_rgb	color;
-	double	radius;
+	t_vec3		center;
+	t_vec3		axis_vec;
+	double		diameter;
+	double		height;
+	t_rgb		color;
+	double		radius;
+	T_POINT3	*upper_base;
+	T_POINT3	*lower_base;
 }				t_cylinder;
 
 typedef struct s_windata {
@@ -135,12 +131,20 @@ typedef struct s_interval {
 	double	max;
 }				t_interval;
 
+typedef struct s_object_container
+{
+	int							type;
+	void						*object;
+	BOOL						(*hit)(void *, t_interval, t_hit_record *,
+								t_ray *);
+	struct s_object_container	*next;
+}				t_object_container;
+
 typedef struct s_wolrd_setup {
 	t_ambient			*ambient;
 	t_camera			*camera;
 	t_light				*light;
 	t_object_container	*world;
-	double				focal_length;
 	double				viewport_width;
 	double				viewport_height;
 	t_vec3				*viewport_u;
@@ -184,21 +188,29 @@ t_vec3				*create_vec3(double x, double y, double z);
 t_sphere    		*create_sphere(char **split);
 BOOL				hit_any_object(t_object_container *world,
 					t_interval interval, t_hit_record *rec, t_ray *ray);
-BOOL				hit_sphere(t_sphere *sphere, t_interval interval,
+BOOL				hit_sphere(void *ptr, t_interval interval,
 					t_hit_record *rec, t_ray *ray);
 int					ft_dblptrlen(char **str);
 void				fill_rgb(t_rgb *object, char **rgb);
 void				fill_coordinate(t_vec3 *object, char **coordinate);
 double				random_double(void);
 double				interval_random_double(t_interval interval);
-BOOL				hit_plane(t_plane *plane, t_interval interval,
+BOOL				hit_plane(void *ptr, t_interval interval,
 					t_hit_record *rec, t_ray *ray);
-BOOL				hit_cylinder(t_cylinder *cylinder, t_interval interval,
+BOOL				hit_cylinder(void *ptr, t_interval interval,
 					t_hit_record *rec, t_ray *ray);
 void				set_normal_against_ray(t_ray *ray, t_hit_record *rec);
 BOOL				closeto_zero(double value);
-void				get_bases_centers(t_cylinder *cylinder, T_POINT3 **upper_base,
-					T_POINT3 **lower_base);
+void				get_bases_centers(t_cylinder *cylinder);
 t_vec3				*reflect_vec(t_vec3 *incident_vec, t_vec3 *surface_normal);
+t_rgb				*colors_addition(t_rgb *color1, t_rgb *color2);
+t_rgb				*scale_color(double scalar, t_rgb *color);
+double				max(double min, double value);
+int					clamp(double min, double max, int var);
+double				calculate_light(t_world_setup *world_setup, t_hit_record *rec,
+					t_ray *ray);
+BOOL				hit_light(t_object_container *world, t_ray *ray);
+t_rgb				*ray_color(t_world_setup *world_setup, t_ray *ray);
+t_ray				*get_ray(int jdx, int idx, t_world_setup *world_setup);
 
 #endif

@@ -25,6 +25,12 @@ t_object_container	*create_object(int type, void *object)
 	if (node == NULL)
 		return (NULL);
 	node->type = type;
+	if (type == SPHERE)
+		node->hit = hit_sphere;
+	else if (type == CYLINDER)
+		node->hit = hit_cylinder;
+	else if (type == PLANE)
+		node->hit = hit_cylinder;
 	node->object = object;
 	node->next = NULL;
 	return (node);
@@ -38,29 +44,10 @@ BOOL	hit_any_object(t_object_container *world, t_interval interval,
 	hit_anything = FALSE;
 	while (world != NULL)
 	{
-		if (world->type == SPHERE)
+		if (world->hit(world->object, interval, rec, ray))
 		{
-			if (hit_sphere((t_sphere *)world->object, interval, rec, ray))
-			{
-				hit_anything = TRUE;
-				interval.max = rec->t;
-			}
-		}
-		else if (world->type == CYLINDER)
-		{
-			if (hit_cylinder((t_cylinder *)world->object, interval, rec, ray))
-			{
-				hit_anything = TRUE;
-				interval.max = rec->t;
-			}
-		}
-		else if (world->type == PLANE)
-		{
-			if (hit_plane((t_plane *)world->object, interval, rec, ray))
-			{
-				hit_anything = TRUE;
-				interval.max = rec->t;
-			}
+			hit_anything = TRUE;
+			interval.max = rec->t;
 		}
 		world = world->next;
 	}

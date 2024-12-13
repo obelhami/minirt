@@ -65,15 +65,17 @@ t_sphere	*create_sphere(char **split)
 	return (sphere);
 }
 
-BOOL	hit_sphere(t_sphere *sphere, t_interval interval, t_hit_record *rec,
+BOOL	hit_sphere(void *ptr, t_interval interval, t_hit_record *rec,
 		t_ray *ray)
 {
+	t_sphere		*sphere;
 	t_vec3			*oc;
 	t_discriminant	discriminant;
 	double			h;
 	double			sqrt_delta;
 	double			root;
 
+	sphere = (t_sphere *)ptr;
 	oc = subtraction_op(&sphere->center, ray->orig);
 	discriminant.a = vector_length_squared(ray->dir);
 	h = dot_product(ray->dir, oc);
