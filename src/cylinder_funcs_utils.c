@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder_funcs_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 14:41:59 by ajawad            #+#    #+#             */
+/*   Updated: 2024/12/13 14:42:10 by ajawad           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	get_bases_centers(t_cylinder *cylinder)
@@ -10,7 +22,7 @@ void	get_bases_centers(t_cylinder *cylinder)
 	base2 = subtraction_op(&cylinder->center,
 			scalar_op(cylinder->height / 2, &cylinder->axis_vec));
 	if (dot_product(subtraction_op(&cylinder->center, base1),
-				&cylinder->axis_vec) > 0.0)
+			&cylinder->axis_vec) > 0.0)
 	{
 		cylinder->lower_base = base1;
 		cylinder->upper_base = base2;

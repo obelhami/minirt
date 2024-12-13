@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 15:18:12 by ajawad            #+#    #+#             */
+/*   Updated: 2024/12/13 15:18:32 by ajawad           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 inline t_vec3	*scalar_op(double t, t_vec3 *vec)
@@ -15,7 +27,7 @@ inline t_vec3	*scalar_op(double t, t_vec3 *vec)
 
 inline t_vec3	*division_op(t_vec3 *v, double t)
 {
-	return (scalar_op(1/t, v));
+	return (scalar_op(1 / t, v));
 }
 
 inline t_vec3	*addition_op(t_vec3 *v, t_vec3 *u)
