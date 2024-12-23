@@ -27,6 +27,9 @@
 # define TRUE 1
 # define FALSE 0
 
+# define UPPER_BASE 0
+# define LOWER_BASE 1
+
 typedef struct s_vec3
 {
 	double	x;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sphere_funcs.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/13 14:51:48 by ajawad            #+#    #+#             */
+/*   Updated: 2024/12/13 15:01:41 by ajawad           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_sphere	*create_sphere(char **split)
@@ -65,38 +77,42 @@ t_sphere	*create_sphere(char **split)
 	return (sphere);
 }
 
-BOOL	hit_sphere(void *ptr, t_interval interval, t_hit_record *rec,
-		t_ray *ray)
+static void	set_record(t_hit_record *rec, t_sphere *sphere, t_ray *ray,
+		double root)
 {
-	t_sphere		*sphere;
-	t_vec3			*oc;
-	t_discriminant	discriminant;
-	double			h;
-	double			sqrt_delta;
-	double			root;
-
-	sphere = (t_sphere *)ptr;
-	oc = subtraction_op(&sphere->center, ray->orig);
-	discriminant.a = vector_length_squared(ray->dir);
-	h = dot_product(ray->dir, oc);
-	discriminant.c = vector_length_squared(oc)
-		- (sphere->radius * sphere->radius);
-	discriminant.delta = (h * h) - (discriminant.a * discriminant.c);
-	if (discriminant.delta < 0)
-		return (FALSE);
-	sqrt_delta = sqrt(discriminant.delta);
-	root = (h - sqrt_delta) / discriminant.a;
-	if (root <= interval.min || root >= interval.max)
-	{
-		root = (h + sqrt_delta) / discriminant.a;
-		if (root <= interval.min || root >= interval.max)
-			return (FALSE);
-	}
 	rec->t = root;
 	rec->point = ray_at(ray, rec->t);
 	rec->normal = division_op(subtraction_op(rec->point, &sphere->center),
 			sphere->radius);
 	set_normal_against_ray(ray, rec);
 	rec->color = &sphere->color;
-	return (TRUE);
+}
+
+BOOL	hit_sphere(void *ptr, t_interval interval, t_hit_record *rec,
+		t_ray *ray)
+{
+	t_sphere		*sphere;
+	t_vec3			*oc;
+	t_discriminant	eq;
+	double			sqrt_delta;
+	double			root;
+
+	sphere = (t_sphere *)ptr;
+	oc = subtraction_op(&sphere->center, ray->orig);
+	eq.a = vector_length_squared(ray->dir);
+	eq.b = -2.0 * dot_product(ray->dir, oc);
+	eq.c = vector_length_squared(oc)
+		- (sphere->radius * sphere->radius);
+	eq.delta = (eq.b * eq.b) - (4 * eq.a * eq.c);
+	if (eq.delta < 0)
+		return (FALSE);
+	sqrt_delta = sqrt(eq.delta);
+	root = (-eq.b - sqrt_delta) / (2.0 * eq.a);
+	if (root <= interval.min || root >= interval.max)
+	{
+		root = (-eq.b + sqrt_delta) / (2.0 * eq.a);
+		if (root <= interval.min || root >= interval.max)
+			return (FALSE);
+	}
+	return (set_record(rec, sphere, ray, root), TRUE);
 }
