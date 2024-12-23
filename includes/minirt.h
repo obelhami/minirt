@@ -20,6 +20,7 @@
 # define ESC 65307
 
 # define PI 3.14159265358979323
+# define EPSILON 1e-4
 
 # define T_POINT3 t_vec3
 
@@ -212,7 +213,7 @@ double				max(double min, double value);
 int					clamp(double min, double max, int var);
 double				calculate_light(t_world_setup *world_setup, t_hit_record *rec,
 					t_ray *ray);
-BOOL				hit_light(t_object_container *world, t_ray *ray);
+BOOL				hit_light(t_object_container *world, t_ray *ray, t_light *light);
 t_rgb				*ray_color(t_world_setup *world_setup, t_ray *ray);
 t_ray				*get_ray(int jdx, int idx, t_world_setup *world_setup);
 
