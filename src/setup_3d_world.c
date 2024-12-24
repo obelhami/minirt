@@ -1,21 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setup_3d_world.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/24 14:07:30 by ajawad            #+#    #+#             */
+/*   Updated: 2024/12/24 14:08:00 by ajawad           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 void	setup_viewport_dimentions(t_windata *win, t_world_setup *world_setup,
-		double	focal_length)
+		double focal_length)
 {
 	double		tan_theta;
 
 	tan_theta = tan(degrees_to_radians(world_setup->camera->hfov) / 2);
 	world_setup->viewport_width = 2 * tan_theta * focal_length;
 	world_setup->viewport_height = world_setup->viewport_width
-			/ ((double)win->width / win->height);
+		/ ((double)win->width / win->height);
 }
 
 int	calculate_pixel00_loc(t_world_setup *world_setup, t_vec3 *w,
 		double focal_length)
 {
 	T_POINT3	*v_upper_left;
-	
+
 	v_upper_left = subtraction_op(&world_setup->camera->cord,
 			scalar_op(focal_length, w));
 	v_upper_left = subtraction_op(v_upper_left,

@@ -22,6 +22,8 @@
 # define PI 3.14159265358979323
 # define EPSILON 1e-4
 
+# define H_REC (t_hit_record)
+
 # define T_POINT3 t_vec3
 
 # define BOOL int
@@ -208,6 +210,7 @@ BOOL				closeto_zero(double value);
 void				get_bases_centers(t_cylinder *cylinder);
 t_vec3				*reflect_vec(t_vec3 *incident_vec, t_vec3 *surface_normal);
 t_rgb				*colors_addition(t_rgb *color1, t_rgb *color2);
+t_rgb				*color_multiplication(t_rgb *color1, t_rgb *color2);
 t_rgb				*scale_color(double scalar, t_rgb *color);
 double				max(double min, double value);
 int					clamp(double min, double max, int var);

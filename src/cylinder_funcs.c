@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder_funcs.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/24 14:09:12 by ajawad            #+#    #+#             */
+/*   Updated: 2024/12/24 14:11:23 by ajawad           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
-# define H_REC (t_hit_record)
 
 t_discriminant	*solve_quadratic_eq(t_cylinder *cylinder, t_ray *ray,
 		T_POINT3 *co)
@@ -10,7 +21,7 @@ t_discriminant	*solve_quadratic_eq(t_cylinder *cylinder, t_ray *ray,
 	if (eq == NULL)
 		return (NULL);
 	eq->a = dot_product(ray->dir, ray->dir)
-			- pow(dot_product(ray->dir, &cylinder->axis_vec), 2);
+		- pow(dot_product(ray->dir, &cylinder->axis_vec), 2);
 	eq->b = 2 * (dot_product(ray->dir, co)
 			- dot_product(ray->dir, &cylinder->axis_vec)
 			* dot_product(co, &cylinder->axis_vec));
@@ -64,7 +75,7 @@ void	get_base_rec(t_cylinder *cylinder, t_interval interval, t_ray *ray,
 		return ;
 	holder = addition_op(scalar_op(root, ray->dir), co);
 	if (!closeto_zero(dot_product(&cylinder->axis_vec, holder)))
-			return ;
+		return ;
 	if (dot_product(holder, holder) < pow(cylinder->radius, 2))
 	{
 		rec->t = root;
@@ -84,7 +95,7 @@ t_hit_record	*get_valid_rec(t_hit_record *rec1, t_hit_record *rec2,
 }
 
 BOOL	hit_cylinder(void *ptr, t_interval interval,
-		t_hit_record *rec, t_ray * ray)
+		t_hit_record *rec, t_ray *ray)
 {
 	t_cylinder		*cylinder;
 	t_hit_record	body_rec;

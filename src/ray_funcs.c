@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:46:35 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/13 14:46:51 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/24 18:15:14 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ t_rgb	*ray_color(t_world_setup *world_setup, t_ray *ray)
 	t_rgb			*color;
 	t_interval		interval;
 	t_hit_record	rec;
+	double			coeff;
 
 	interval.min = 0;
 	interval.max = INFINITY;
 	if (hit_any_object(world_setup->world, interval, &rec, ray))
 	{
-		color = scale_color(calculate_light(world_setup, &rec, ray), rec.color);
+		coeff = calculate_light(world_setup, &rec, ray);
+		//color = color_multiplication(rec.color, &world_setup->ambient->color);
+		color = scale_color(coeff, rec.color);
 		return (color);
 	}
 	color = malloc(sizeof(t_rgb));

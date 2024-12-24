@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   light_funcs.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/24 14:12:04 by ajawad            #+#    #+#             */
+/*   Updated: 2024/12/24 18:14:34 by ajawad           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 BOOL	hit_light(t_object_container *world, t_ray *ray, t_light *light)
@@ -21,9 +33,9 @@ double	calculate_light(t_world_setup *world_setup, t_hit_record *rec,
 {
 	t_vec3			*light_dir;
 	double			diffuse;
-	double			specular;
 	t_ray			light_ray;
 
+	(void)ray;
 	light_dir = unit_vector(subtraction_op(&world_setup->light->cord,
 				rec->point));
 	diffuse = max(0.0, dot_product(light_dir, rec->normal))
@@ -34,7 +46,5 @@ double	calculate_light(t_world_setup *world_setup, t_hit_record *rec,
 	light_ray.dir = light_dir;
 	if (hit_light(world_setup->world, &light_ray, world_setup->light) == FALSE)
 		return (world_setup->ambient->lighting_ratio);
-	specular = max(0.0, dot_product(reflect_vec(light_dir, rec->normal),
-				ray->dir)) * world_setup->light->brightness;
-	return (diffuse + world_setup->ambient->lighting_ratio + specular);
+	return (diffuse + world_setup->ambient->lighting_ratio);
 }

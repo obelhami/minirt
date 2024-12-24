@@ -6,11 +6,24 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:38 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/13 10:55:39 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/24 18:12:59 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+inline t_rgb	*color_multiplication(t_rgb *color1, t_rgb *color2)
+{
+	t_rgb	*resulted_color;
+
+	resulted_color = malloc(sizeof(t_rgb));
+	if (resulted_color == NULL)
+		return (NULL);
+	resulted_color->r = color1->r * color2->r;
+	resulted_color->g = color1->g * color2->g;
+	resulted_color->b = color1->b * color2->b;
+	return (resulted_color);
+}
 
 inline t_rgb	*colors_addition(t_rgb *color1, t_rgb *color2)
 {
