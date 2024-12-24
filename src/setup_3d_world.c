@@ -11,9 +11,26 @@ void	setup_viewport_dimentions(t_windata *win, t_world_setup *world_setup,
 			/ ((double)win->width / win->height);
 }
 
-int	setup_3d_world(t_windata *win, t_world_setup *world_setup)
+int	calculate_pixel00_loc(t_world_setup *world_setup, t_vec3 *w,
+		double focal_length)
 {
 	T_POINT3	*v_upper_left;
+	
+	v_upper_left = subtraction_op(&world_setup->camera->cord,
+			scalar_op(focal_length, w));
+	v_upper_left = subtraction_op(v_upper_left,
+			division_op(world_setup->viewport_u, 2));
+	v_upper_left = subtraction_op(v_upper_left,
+			division_op(world_setup->viewport_v, 2));
+	world_setup->pixel00_loc = addition_op(v_upper_left,
+			scalar_op(2.5, world_setup->delta_u));
+	world_setup->pixel00_loc = addition_op(world_setup->pixel00_loc,
+			scalar_op(2.5, world_setup->delta_v));
+	return (0);
+}
+
+int	setup_3d_world(t_windata *win, t_world_setup *world_setup)
+{
 	double		focal_length;
 	t_vec3		*w;
 	t_vec3		*u;
@@ -28,11 +45,7 @@ int	setup_3d_world(t_windata *win, t_world_setup *world_setup)
 	world_setup->viewport_v = scalar_op(world_setup->viewport_height * -1.0, v);
 	world_setup->delta_u = division_op(world_setup->viewport_u, win->width);
 	world_setup->delta_v = division_op(world_setup->viewport_v, win->height);
-	v_upper_left = subtraction_op(&world_setup->camera->cord, scalar_op(focal_length, w));
-	v_upper_left = subtraction_op(v_upper_left, division_op(world_setup->viewport_u, 2));
-	v_upper_left = subtraction_op(v_upper_left, division_op(world_setup->viewport_v, 2));
-	world_setup->pixel00_loc = addition_op(v_upper_left, scalar_op(2.5, world_setup->delta_u));
-	world_setup->pixel00_loc = addition_op(world_setup->pixel00_loc, scalar_op(2.5, world_setup->delta_v));
+	calculate_pixel00_loc(world_setup, w, focal_length);
 	world_setup->samples_per_pixel = 10;
 	return (0);
 }

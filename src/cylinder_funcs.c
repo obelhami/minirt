@@ -1,6 +1,5 @@
 #include "minirt.h"
-# define INS_BODY
-# define OUTS_BODY
+# define H_REC (t_hit_record)
 
 t_discriminant	*solve_quadratic_eq(t_cylinder *cylinder, t_ray *ray,
 		T_POINT3 *co)
@@ -95,8 +94,8 @@ BOOL	hit_cylinder(void *ptr, t_interval interval,
 
 	cylinder = (t_cylinder *)ptr;
 	body_rec = (t_hit_record){.t = INFINITY};
-	upperbase_rec = (t_hit_record){.t = INFINITY, .normal = &cylinder->axis_vec};
-	lowerbase_rec = (t_hit_record){.t = INFINITY, .normal = &cylinder->axis_vec};
+	upperbase_rec = H_REC{.t = INFINITY, .normal = &cylinder->axis_vec};
+	lowerbase_rec = H_REC{.t = INFINITY, .normal = &cylinder->axis_vec};
 	set_normal_against_ray(ray, &lowerbase_rec);
 	set_normal_against_ray(ray, &upperbase_rec);
 	get_body_rec(cylinder, interval, ray, cylinder->lower_base, &body_rec);
