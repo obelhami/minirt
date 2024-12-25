@@ -219,5 +219,13 @@ double				calculate_light(t_world_setup *world_setup, t_hit_record *rec,
 BOOL				hit_light(t_object_container *world, t_ray *ray, t_light *light);
 t_rgb				*ray_color(t_world_setup *world_setup, t_ray *ray);
 t_ray				*get_ray(int jdx, int idx, t_world_setup *world_setup);
+t_cylinder  *create_cylinder(char **split);
+void    utils(char  *str);
+void    ft_check_isfloat(char **str, char *error);
+void    ft_check_rgb(char **rgb, char *error);
+t_plane *create_plane(char **split);
+t_light *create_light(char **split);
+t_camera	*create_camera(char **split);
+t_ambient   *create_ambient(char **split);
 
 #endif
