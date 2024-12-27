@@ -6,42 +6,46 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:47:13 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/13 14:47:47 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/27 21:19:32 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	pixel_put_in_img(t_windata *win, int x, int y, t_rgb *color)
+void	colors_addition_cstm(t_rgb *color1, t_rgb *color2)
 {
-	int			rgb;
+	color1->r = color1->r + color2->r;
+	color1->g = color1->g + color2->g;
+	color1->b = color1->b + color2->b;
+}
 
-	rgb = clamp(0.0, 255.0, color->r) << 16
-		| clamp(0.0, 255.0, color->g) << 8
-		| clamp(0.0, 255.0, color->b);
-	mlx_pixel_put(win->mlx, win->mlx_win, x, y, rgb);
+t_rgb	*create_color(int r, int g, int b)
+{
+	t_rgb	*color;
+
+	color = malloc(sizeof(t_rgb *));
+	if (color == NULL)
+		return (NULL);
+	color->r = r;
+	color->g = g;
+	color->b = b;
+	return (color);
 }
 
 t_rgb	*get_pixel_color(t_world_setup *world_setup, t_ray *ray, int x, int y)
 {
-	t_rgb	*pixel_color;
+	t_rgb	pixel_color;
 	int		sample;
 
 	sample = 0;
-	pixel_color = malloc(sizeof(t_rgb));
-	if (pixel_color == NULL)
-		return (NULL);
-	pixel_color->r = 0;
-	pixel_color->g = 0;
-	pixel_color->b = 0;
+	pixel_color = (t_rgb){.r = 0, .g = 0, .b = 0};
 	while (sample < world_setup->samples_per_pixel)
 	{
 		ray = get_ray(x, y, world_setup);
-		pixel_color = colors_addition(pixel_color,
-				ray_color(world_setup, ray));
+		colors_addition_cstm(&pixel_color, ray_color(world_setup, ray));
 		sample++;
 	}
-	return (pixel_color);
+	return (create_color(pixel_color.r, pixel_color.g, pixel_color.b));
 }
 
 int	render(t_windata *win, t_world_setup *world_setup)
@@ -50,6 +54,7 @@ int	render(t_windata *win, t_world_setup *world_setup)
 	int			jdx;
 	t_rgb		*pixel_color;
 	t_ray		ray;
+	int			rgb;
 
 	idx = 0;
 	while (idx < win->height)
@@ -60,8 +65,10 @@ int	render(t_windata *win, t_world_setup *world_setup)
 			pixel_color = get_pixel_color(world_setup, &ray, jdx, idx);
 			if (pixel_color == NULL)
 				return (-1);
-			pixel_put_in_img(win, jdx, idx, scale_color(
-					1.0 / world_setup->samples_per_pixel, pixel_color));
+			rgb = clamp(0.0, 255.0, pixel_color->r) << 16
+				| clamp(0.0, 255.0, pixel_color->g) << 8
+				| clamp(0.0, 255.0, pixel_color->b);
+			mlx_pixel_put(win->mlx, win->mlx_win, jdx, idx, rgb);
 			jdx++;
 		}
 		idx++;

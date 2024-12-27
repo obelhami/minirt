@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:07:30 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/24 14:08:00 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/27 17:51:04 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ int	setup_3d_world(t_windata *win, t_world_setup *world_setup)
 	world_setup->delta_u = division_op(world_setup->viewport_u, win->width);
 	world_setup->delta_v = division_op(world_setup->viewport_v, win->height);
 	calculate_pixel00_loc(world_setup, w, focal_length);
-	world_setup->samples_per_pixel = 10;
+	world_setup->samples_per_pixel = 1;
 	return (0);
 }
