@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:18:53 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/13 15:19:08 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/27 16:34:39 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_object_container	*create_object(int type, void *object)
 	else if (type == CYLINDER)
 		node->hit = hit_cylinder;
 	else if (type == PLANE)
-		node->hit = hit_cylinder;
+		node->hit = hit_plane;
 	node->object = object;
 	node->next = NULL;
 	return (node);
