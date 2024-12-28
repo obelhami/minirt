@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:46:35 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/28 01:21:52 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/28 14:25:55 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_rgb	*ray_color(t_world_setup *world_setup, t_ray *ray)
 	interval.max = INFINITY;
 	if (hit_any_object(world_setup->world, interval, &rec, ray))
 		return (scale_color(calculate_light_effect(world_setup, &rec),
-					rec.color));
+				rec.color));
 	return (scale_color(world_setup->ambient->lighting_ratio,
-				&world_setup->ambient->color));
+			&world_setup->ambient->color));
 }
 
 t_ray	*get_ray(int jdx, int idx, t_world_setup *world_setup)

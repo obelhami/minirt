@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 05:47:41 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/25 05:54:46 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:24:13 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	check_diameter_height(t_cylinder *cylinder, char **split)
 	cylinder->height = height;
 }
 
-static void check_orientation_vector(t_cylinder *cylinder, char **split)
+static void	check_orientation_vector(t_cylinder *cylinder, char **split)
 {
 	int		i;
 	char	**orientation_vector;

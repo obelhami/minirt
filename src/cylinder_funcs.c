@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:09:12 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/28 01:15:59 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/28 14:24:32 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ t_discriminant	*solve_quadratic_eq(t_cylinder *cylinder, t_ray *ray,
 }
 
 static t_vec3	*get_normal(t_cylinder *cylinder, t_ray *ray, double root,
-				double distance)
+		double distance)
 {
 	t_vec3	*normal;
 
 	normal = unit_vector(subtraction_op(subtraction_op(scalar_op(root,
-					ray->dir), scalar_op(distance, &cylinder->axis_vec)),
+						ray->dir), scalar_op(distance, &cylinder->axis_vec)),
 				cylinder->lower_base));
 	if (dot_product(ray->dir, normal) > 0.0)
 		normal = scalar_op(-1.0, normal);
