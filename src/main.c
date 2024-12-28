@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 02:27:21 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/28 21:12:49 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/28 21:15:29 by obelhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_error(char *str)
 	exit(1);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_world_setup	world_setup;
 	t_windata		windata;
