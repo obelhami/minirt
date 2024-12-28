@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 02:27:21 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/28 05:13:59 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/28 21:12:49 by obelhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_error(char *str)
 int main(int argc, char **argv)
 {
 	t_world_setup	world_setup;
-	// t_windata		windata;
+	t_windata		windata;
 
 	world_setup.ambient = NULL;
 	world_setup.camera = NULL;
@@ -36,10 +36,10 @@ int main(int argc, char **argv)
 	}
 	if (parsing(&world_setup, argv[1]))
 		return (1);
-	// if (create_window(&windata))
-	// 	return (1);
-	// setup_3d_world(&windata, &world_setup);
-	// render(&windata, &world_setup);
-	// mlx_loop(windata.mlx);
+	if (create_window(&windata))
+		return (1);
+	setup_3d_world(&windata, &world_setup);
+	render(&windata, &world_setup);
+	mlx_loop(windata.mlx);
 	return (0);
 }
