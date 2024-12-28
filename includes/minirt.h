@@ -214,8 +214,8 @@ t_rgb				*color_multiplication(t_rgb *color1, t_rgb *color2);
 t_rgb				*scale_color(double scalar, t_rgb *color);
 double				max(double min, double value);
 int					clamp(double min, double max, int var);
-double				calculate_light(t_world_setup *world_setup, t_hit_record *rec,
-					t_ray *ray);
+double				calculate_light_effect(t_world_setup *world_setup,
+					t_hit_record *rec);
 BOOL				hit_light(t_object_container *world, t_ray *ray, t_light *light);
 t_rgb				*ray_color(t_world_setup *world_setup, t_ray *ray);
 t_ray				*get_ray(int jdx, int idx, t_world_setup *world_setup);

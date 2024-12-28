@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:09:12 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/27 21:27:34 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/28 01:15:59 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,28 @@ t_discriminant	*solve_quadratic_eq(t_cylinder *cylinder, t_ray *ray,
 	return (eq);
 }
 
-void	get_body_rec(t_cylinder *cylinder, t_interval interval,
-		t_ray *ray, T_POINT3 *base, t_hit_record *rec)
+static t_vec3	*get_normal(t_cylinder *cylinder, t_ray *ray, double root,
+				double distance)
+{
+	t_vec3	*normal;
+
+	normal = unit_vector(subtraction_op(subtraction_op(scalar_op(root,
+					ray->dir), scalar_op(distance, &cylinder->axis_vec)),
+				cylinder->lower_base));
+	if (dot_product(ray->dir, normal) > 0.0)
+		normal = scalar_op(-1.0, normal);
+	return (normal);
+}
+
+void	get_body_rec(t_cylinder *cylinder, t_interval interval, t_ray *ray,
+		t_hit_record *rec)
 {
 	t_discriminant	*eq;
 	t_vec3			*x;
 	double			root;
 	double			distance;
 
-	x = subtraction_op(ray->orig, base);
+	x = subtraction_op(ray->orig, cylinder->lower_base);
 	eq = solve_quadratic_eq(cylinder, ray, x);
 	if (eq->delta < 0)
 		return ;
@@ -57,19 +70,23 @@ void	get_body_rec(t_cylinder *cylinder, t_interval interval,
 		return ;
 	rec->t = root;
 	rec->point = ray_at(ray, root);
-	rec->normal = subtraction_op(scalar_op(root, ray->dir),
-			scalar_op(distance, &cylinder->axis_vec));
-	rec->normal = unit_vector(subtraction_op(rec->normal, base));
-	set_normal_against_ray(ray, rec);
+	rec->normal = get_normal(cylinder, ray, root, distance);
 }
 
 void	get_base_rec(t_cylinder *cylinder, t_interval interval, t_ray *ray,
-		T_POINT3 *base, t_hit_record *rec)
+		t_hit_record *rec)
 {
-	double	root;
-	t_vec3	*co;
-	t_vec3	*holder;
+	double		root;
+	t_vec3		*co;
+	t_vec3		*holder;
+	T_POINT3	*base;
+	static int	base_indicator;
 
+	base = NULL;
+	if (base_indicator == UPPER_BASE)
+		base = cylinder->upper_base;
+	else if (base_indicator == LOWER_BASE)
+		base = cylinder->lower_base;
 	co = subtraction_op(ray->orig, base);
 	root = dot_product(&cylinder->axis_vec, base)
 		/ dot_product(&cylinder->axis_vec, ray->dir);
@@ -83,6 +100,7 @@ void	get_base_rec(t_cylinder *cylinder, t_interval interval, t_ray *ray,
 		rec->t = root;
 		rec->point = ray_at(ray, root);
 	}
+	base_indicator = (base_indicator + 1) % 2;
 }
 
 t_hit_record	*get_valid_rec(t_hit_record *rec1, t_hit_record *rec2,
@@ -111,9 +129,9 @@ BOOL	hit_cylinder(void *ptr, t_interval interval,
 	lowerbase_rec = H_REC{.t = INFINITY, .normal = &cylinder->axis_vec};
 	set_normal_against_ray(ray, &lowerbase_rec);
 	set_normal_against_ray(ray, &upperbase_rec);
-	get_body_rec(cylinder, interval, ray, cylinder->lower_base, &body_rec);
-	get_base_rec(cylinder, interval, ray, cylinder->upper_base, &upperbase_rec);
-	get_base_rec(cylinder, interval, ray, cylinder->lower_base, &lowerbase_rec);
+	get_body_rec(cylinder, interval, ray, &body_rec);
+	get_base_rec(cylinder, interval, ray, &upperbase_rec);
+	get_base_rec(cylinder, interval, ray, &lowerbase_rec);
 	temp_rec = get_valid_rec(&body_rec, &upperbase_rec, &lowerbase_rec);
 	if (temp_rec->t == INFINITY)
 		return (FALSE);
