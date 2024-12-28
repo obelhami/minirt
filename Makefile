@@ -9,7 +9,7 @@ MEND_FILES = main.c ft_strstr.c ft_strcmp.c ft_isdigit.c ft_atof.c \
 			rec_utils.c cylinder_funcs_utils.c color_utils.c \
 			ray_funcs.c comparisons.c light_funcs.c create_cylinder.c \
 			create_plane.c utils_for_parsing.c create_light.c create_camera.c \
-			create_ambient.c
+			create_ambient.c parsing.c
 SRCS = $(addprefix src/, $(MEND_FILES))
 OBJS = $(SRCS:.c=.o)
 LIBFT 		= src/libft/libft.a
