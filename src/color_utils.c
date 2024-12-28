@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:38 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/24 18:12:59 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/27 17:58:30 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ inline t_rgb	*colors_addition(t_rgb *color1, t_rgb *color2)
 {
 	t_rgb	*resulted_color;
 
+	if (color1 == NULL)
+		return (color2);
+	else if (color2 == NULL)
+		return (color1);
 	resulted_color = malloc(sizeof(t_rgb));
 	if (resulted_color == NULL)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:09:12 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/24 14:11:23 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/27 21:27:34 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	get_body_rec(t_cylinder *cylinder, t_interval interval,
 
 	x = subtraction_op(ray->orig, base);
 	eq = solve_quadratic_eq(cylinder, ray, x);
+	if (eq->delta < 0)
+		return ;
 	root = (-eq->b - sqrt(eq->delta)) / (2 * eq->a);
 	if (root <= interval.min || root >= interval.max)
 	{
