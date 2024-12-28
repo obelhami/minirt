@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 02:27:21 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/25 06:39:45 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/25 23:43:23 by obelhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 		{
 			if (world_setup->camera != NULL)
 			{
-				printf("ERROR2\n");
+				printf("must be only one camera\n");
 				return (1);
 			}
 			world_setup->camera = create_camera(split);
@@ -62,7 +62,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 		{
 			if (world_setup->ambient != NULL)
 			{
-				printf("ERROR1\n");
+				printf("must be only one ambient\n");
 				return (1);
 			}
 			world_setup->ambient = create_ambient(split);
@@ -71,7 +71,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 		{
 			if (world_setup->light != NULL)
 			{
-				printf("ERROR3\n");
+				printf("must be only one light\n");
 				return (1);
 			}
 			world_setup->light = create_light(split);
@@ -84,7 +84,7 @@ int	parsing(t_world_setup *world_setup, char *config_file_name)
 			add_object(&world_setup->world, create_object(CYLINDER, create_cylinder(split)));
 		else if (type_of_object == 1)
 		{
-			printf("ERROR6\n");
+			printf("Error: the object is invalid\n");
 			exit(1);
 		}
 		free(line);
