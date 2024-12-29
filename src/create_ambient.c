@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 06:39:08 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/25 06:39:09 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/29 04:57:26 by obelhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,5 @@ t_ambient	*create_ambient(char **split)
 	rgb = ft_split(split[2], ',');
 	ft_check_rgb(rgb, "ambient");
 	fill_rgb(&ambient->color, rgb);
-	ft_free(split);
 	return (ambient);
 }

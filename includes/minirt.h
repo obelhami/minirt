@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 05:36:48 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/28 05:36:49 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/29 04:56:37 by obelhami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,5 +240,6 @@ t_camera	*create_camera(char **split);
 t_ambient   *create_ambient(char **split);
 int	parsing(t_world_setup *world_setup, char *config_file_name);
 void	ft_error(char *str);
+t_sphere	*create_sphere(char **split);
 
 #endif
