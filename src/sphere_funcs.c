@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:51:48 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/29 04:57:04 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/29 20:44:59 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_sphere	*create_sphere(char **split)
 	char		**rgb;
 	t_sphere	*sphere;
 
-	sphere = malloc(sizeof(t_sphere));
+	sphere = alloc(sizeof(t_sphere));
 	if (ft_dblptrlen(split) != 4)
 		utils("sphere");
 	coordinate = ft_split(split[1], ',');
@@ -47,7 +47,7 @@ static void	set_record(t_hit_record *rec, t_sphere *sphere, t_ray *ray,
 	rec->color = &sphere->color;
 }
 
-BOOL	hit_sphere(void *ptr, t_interval interval, t_hit_record *rec,
+int	hit_sphere(void *ptr, t_interval interval, t_hit_record *rec,
 		t_ray *ray)
 {
 	t_sphere		*sphere;

@@ -6,13 +6,13 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:43:55 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/27 22:08:04 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 05:57:43 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-BOOL	hit_plane(void *ptr, t_interval interval, t_hit_record *rec,
+int	hit_plane(void *ptr, t_interval interval, t_hit_record *rec,
 		t_ray *ray)
 {
 	t_plane	*plane;

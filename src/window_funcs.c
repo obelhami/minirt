@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:55:21 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/13 10:55:22 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 21:14:42 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ int	catch_keypress(int keycode, void *param)
 {
 	(void)param;
 	if (keycode == ESC)
-		exit(1);
+		garbage_collector();
 	return (0);
 }
 
 int	destroy_window(void *ptr)
 {
 	(void)ptr;
-	exit(1);
+	garbage_collector();
 	return (0);
 }
 

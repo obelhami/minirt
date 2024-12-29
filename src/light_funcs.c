@@ -6,13 +6,13 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:12:04 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/28 01:56:36 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 05:57:29 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-BOOL	hit_light(t_object_container *world, t_ray *ray, t_light *light)
+int	hit_light(t_object_container *world, t_ray *ray, t_light *light)
 {
 	t_interval		interval;
 	t_hit_record	rec;

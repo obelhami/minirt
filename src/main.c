@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 02:27:21 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/28 21:15:29 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/29 21:22:15 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_error(char *str)
 {
 	printf("%s", str);
-	exit(1);
+	garbage_collector();
 }
 
 int	main(int argc, char **argv)
@@ -34,10 +34,8 @@ int	main(int argc, char **argv)
 		if (!ft_strstr(argv[1], ".rt"))
 			ft_error("Error: the argument must be finish with .rt\n");
 	}
-	if (parsing(&world_setup, argv[1]))
-		return (1);
-	if (create_window(&windata))
-		return (1);
+	parsing(&world_setup, argv[1]);
+	create_window(&windata);
 	setup_3d_world(&windata, &world_setup);
 	render(&windata, &world_setup);
 	mlx_loop(windata.mlx);

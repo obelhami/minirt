@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 06:39:08 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/29 04:57:26 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/29 20:43:01 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_ambient	*create_ambient(char **split)
 	char			**rgb;
 	double			light_ratio;
 
-	ambient = malloc(sizeof(t_ambient));
+	ambient = alloc(sizeof(t_ambient));
 	if (ft_dblptrlen(split) != 3)
 		utils("argumment of ambient");
 	light_ratio = ft_atof(split[1]);

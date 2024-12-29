@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 15:18:53 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/27 16:34:39 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 21:22:00 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ t_object_container	*create_object(int type, void *object)
 {
 	t_object_container	*node;
 
-	node = malloc(sizeof(t_object_container));
-	if (node == NULL)
-		return (NULL);
+	node = alloc(sizeof(t_object_container));
 	node->type = type;
 	if (type == SPHERE)
 		node->hit = hit_sphere;
@@ -48,10 +46,10 @@ t_object_container	*create_object(int type, void *object)
 	return (node);
 }
 
-BOOL	hit_any_object(t_object_container *world, t_interval interval,
+int	hit_any_object(t_object_container *world, t_interval interval,
 		t_hit_record *rec, t_ray *ray)
 {
-	BOOL			hit_anything;
+	int	hit_anything;
 
 	hit_anything = FALSE;
 	while (world != NULL)

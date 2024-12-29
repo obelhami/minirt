@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 05:47:41 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/28 14:24:13 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 20:43:22 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_cylinder	*create_cylinder(char **split)
 	char		**rgb;
 	t_cylinder	*cylinder;
 
-	cylinder = malloc(sizeof(t_cylinder));
+	cylinder = alloc(sizeof(t_cylinder));
 	if (ft_dblptrlen(split) != 6)
 		utils("cylinder");
 	coordinate = ft_split(split[1], ',');

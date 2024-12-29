@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 21:09:31 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/28 21:09:32 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 21:16:17 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,38 @@
 
 t_list	**return_head(void)
 {
-	static t_list	*head;
+	static t_list	*head = NULL;
 
 	return (&head);
 }
 
 t_list	**return_tail(void)
 {
-	static t_list	*tail;
+	static t_list	*tail = NULL;
 
 	return (&tail);
 }
 
 void	addback(t_list *node)
 {
-	t_list	**temp;
+	t_list	**tail;
+	t_list	**head;
 
-	temp = return_tail();
-	if (temp == NULL)
-		*temp = node;
+	tail = return_tail();
+	head = return_head();
+	if (*head == NULL)
+	{
+		*head = node;
+		*tail = node;
+	}
 	else
 	{
-		(*temp)->next = node;
-		*temp = node;
+		(*tail)->next = node;
+		*tail = node;
 	}
 }
 
-void	*safe_alloc(size_t size)
+void	*alloc(size_t size)
 {
 	void	*ptr;
 	void	*node;
@@ -50,14 +55,12 @@ void	*safe_alloc(size_t size)
 	{
 		perror("Fatal");
 		garbage_collector();
-		exit(1);
 	}
 	node = ft_lstnew(ptr);
 	if (node == NULL)
 	{
 		perror("Fatal");
 		garbage_collector();
-		exit(1);
 	}
 	addback(node);
 	return (ptr);
@@ -76,5 +79,5 @@ void	garbage_collector(void)
 		free(temp->content);
 		free(temp);
 	}
-	*garbage = NULL;
+	exit(1);
 }

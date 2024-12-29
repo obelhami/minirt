@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 06:27:49 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/25 06:27:50 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/29 20:43:12 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_camera	*create_camera(char **split)
 	int			fov;
 	char		**coordinate;
 
-	camera = malloc(sizeof(t_camera));
+	camera = alloc(sizeof(t_camera));
 	if (ft_dblptrlen(split) != 4)
 		utils("argumment of camera");
 	coordinate = ft_split(split[1], ',');

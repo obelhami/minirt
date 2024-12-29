@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 06:05:53 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/27 16:31:04 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 20:44:16 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_plane	*create_plane(char **split)
 	char	**rgb;
 	t_plane	*plane;
 
-	plane = malloc(sizeof(t_plane));
+	plane = alloc(sizeof(t_plane));
 	if (ft_dblptrlen(split) != 4)
 		utils("argumment of plane");
 	coordinate = ft_split(split[1], ',');

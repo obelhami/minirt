@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 02:27:00 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/25 02:27:04 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/29 20:44:00 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	**ft_ft_split(char const *s)
 
 	if (!s)
 		return (NULL);
-	ptr = (char **)malloc(sizeof(char *) * (count_strings(s) + 1));
+	ptr = (char **)alloc(sizeof(char *) * (count_strings(s) + 1));
 	if (!ptr)
 		return (NULL);
 	return (double_split(ptr, s));

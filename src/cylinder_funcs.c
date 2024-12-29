@@ -6,31 +6,11 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:09:12 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/28 14:24:32 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 06:06:07 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-
-t_discriminant	*solve_quadratic_eq(t_cylinder *cylinder, t_ray *ray,
-		T_POINT3 *co)
-{
-	t_discriminant	*eq;
-
-	eq = malloc(sizeof(t_discriminant));
-	if (eq == NULL)
-		return (NULL);
-	eq->a = dot_product(ray->dir, ray->dir)
-		- pow(dot_product(ray->dir, &cylinder->axis_vec), 2);
-	eq->b = 2 * (dot_product(ray->dir, co)
-			- dot_product(ray->dir, &cylinder->axis_vec)
-			* dot_product(co, &cylinder->axis_vec));
-	eq->c = dot_product(co, co)
-		- pow(dot_product(co, &cylinder->axis_vec), 2)
-		- pow(cylinder->radius, 2);
-	eq->delta = (eq->b * eq->b) - (4 * eq->a * eq->c);
-	return (eq);
-}
 
 static t_vec3	*get_normal(t_cylinder *cylinder, t_ray *ray, double root,
 		double distance)
@@ -114,7 +94,7 @@ t_hit_record	*get_valid_rec(t_hit_record *rec1, t_hit_record *rec2,
 		return (rec3);
 }
 
-BOOL	hit_cylinder(void *ptr, t_interval interval,
+int	hit_cylinder(void *ptr, t_interval interval,
 		t_hit_record *rec, t_ray *ray)
 {
 	t_cylinder		*cylinder;
@@ -125,8 +105,10 @@ BOOL	hit_cylinder(void *ptr, t_interval interval,
 
 	cylinder = (t_cylinder *)ptr;
 	body_rec = (t_hit_record){.t = INFINITY};
-	upperbase_rec = H_REC{.t = INFINITY, .normal = &cylinder->axis_vec};
-	lowerbase_rec = H_REC{.t = INFINITY, .normal = &cylinder->axis_vec};
+	upperbase_rec = (t_hit_record){.t = INFINITY,
+		.normal = &cylinder->axis_vec};
+	lowerbase_rec = (t_hit_record){.t = INFINITY,
+		.normal = &cylinder->axis_vec};
 	set_normal_against_ray(ray, &lowerbase_rec);
 	set_normal_against_ray(ray, &upperbase_rec);
 	get_body_rec(cylinder, interval, ray, &body_rec);

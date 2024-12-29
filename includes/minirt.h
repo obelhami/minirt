@@ -6,7 +6,7 @@
 /*   By: obelhami <obelhami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 05:36:48 by obelhami          #+#    #+#             */
-/*   Updated: 2024/12/29 05:53:14 by obelhami         ###   ########.fr       */
+/*   Updated: 2024/12/29 21:01:12 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@
 # define PI 3.14159265358979323
 # define EPSILON 1e-4
 
-# define H_REC	(t_hit_record)
 # define T_POINT3 t_vec3
 
-# define BOOL int
 # define TRUE 1
 # define FALSE 0
 
@@ -157,7 +155,8 @@ typedef struct s_object_container
 {
 	int							type;
 	void						*object;
-	BOOL	(*hit)(void *, t_interval, t_hit_record *, t_ray *);
+	int							(*hit)(void *, t_interval,
+			t_hit_record *, t_ray *);
 	struct s_object_container	*next;
 }				t_object_container;
 
@@ -208,21 +207,21 @@ T_POINT3			*ray_at(t_ray *ray, double t);
 void				fill_vec3(t_vec3 *vec, double x, double y, double z);
 t_vec3				*create_vec3(double x, double y, double z);
 t_sphere			*create_sphere(char **split);
-BOOL				hit_any_object(t_object_container *world,
+int					hit_any_object(t_object_container *world,
 						t_interval interval, t_hit_record *rec, t_ray *ray);
-BOOL				hit_sphere(void *ptr, t_interval interval,
+int					hit_sphere(void *ptr, t_interval interval,
 						t_hit_record *rec, t_ray *ray);
 int					ft_dblptrlen(char **str);
 void				fill_rgb(t_rgb *object, char **rgb);
 void				fill_coordinate(t_vec3 *object, char **coordinate);
 double				random_double(void);
 double				interval_random_double(t_interval interval);
-BOOL				hit_plane(void *ptr, t_interval interval,
+int					hit_plane(void *ptr, t_interval interval,
 						t_hit_record *rec, t_ray *ray);
-BOOL				hit_cylinder(void *ptr, t_interval interval,
+int					hit_cylinder(void *ptr, t_interval interval,
 						t_hit_record *rec, t_ray *ray);
 void				set_normal_against_ray(t_ray *ray, t_hit_record *rec);
-BOOL				closeto_zero(double value);
+int					closeto_zero(double value);
 void				get_bases_centers(t_cylinder *cylinder);
 t_vec3				*reflect_vec(t_vec3 *incident_vec, t_vec3 *surface_normal);
 t_rgb				*colors_addition(t_rgb *color1, t_rgb *color2);
@@ -232,7 +231,7 @@ double				max(double min, double value);
 int					clamp(double min, double max, int var);
 double				calculate_light_effect(t_world_setup *world_setup,
 						t_hit_record *rec);
-BOOL				hit_light(t_object_container *world,
+int					hit_light(t_object_container *world,
 						t_ray *ray, t_light *light);
 t_rgb				*ray_color(t_world_setup *world_setup, t_ray *ray);
 t_ray				*get_ray(int jdx, int idx, t_world_setup *world_setup);
@@ -247,5 +246,10 @@ t_ambient			*create_ambient(char **split);
 int					parsing(t_world_setup *world_setup, char *config_file_name);
 void				ft_error(char *str);
 t_sphere			*create_sphere(char **split);
+t_discriminant		*solve_quadratic_eq(t_cylinder *cylinder, t_ray *ray,
+						T_POINT3 *co);
+void				*alloc(size_t size);
+void				garbage_collector(void);
+t_list				*ft_lstnew(void *content);
 
 #endif

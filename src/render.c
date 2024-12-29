@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:47:13 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/27 21:19:32 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 21:20:53 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ t_rgb	*create_color(int r, int g, int b)
 {
 	t_rgb	*color;
 
-	color = malloc(sizeof(t_rgb *));
-	if (color == NULL)
-		return (NULL);
+	color = alloc(sizeof(t_rgb));
 	color->r = r;
 	color->g = g;
 	color->b = b;
@@ -63,8 +61,6 @@ int	render(t_windata *win, t_world_setup *world_setup)
 		while (jdx < win->width)
 		{
 			pixel_color = get_pixel_color(world_setup, &ray, jdx, idx);
-			if (pixel_color == NULL)
-				return (-1);
 			rgb = clamp(0.0, 255.0, pixel_color->r) << 16
 				| clamp(0.0, 255.0, pixel_color->g) << 8
 				| clamp(0.0, 255.0, pixel_color->b);

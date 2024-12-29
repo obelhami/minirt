@@ -6,7 +6,7 @@
 /*   By: ajawad <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:46:35 by ajawad            #+#    #+#             */
-/*   Updated: 2024/12/28 14:25:55 by ajawad           ###   ########.fr       */
+/*   Updated: 2024/12/29 21:18:50 by ajawad           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ t_ray	*get_ray(int jdx, int idx, t_world_setup *world_setup)
 	pixel_sample = addition_op(world_setup->pixel00_loc, addition_op(
 				scalar_op(jdx + offset.x, world_setup->delta_u),
 				scalar_op(idx + offset.y, world_setup->delta_v)));
-	ray = malloc(sizeof(t_ray));
-	if (ray == NULL)
-		return (NULL);
+	ray = alloc(sizeof(t_ray));
 	ray->orig = &world_setup->camera->cord;
 	ray->dir = subtraction_op(pixel_sample, ray->orig);
 	return (ray);

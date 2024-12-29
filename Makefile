@@ -9,14 +9,15 @@ MEND_FILES = main.c ft_strstr.c ft_strcmp.c ft_isdigit.c ft_atof.c \
 			rec_utils.c cylinder_funcs_utils.c color_utils.c \
 			ray_funcs.c comparisons.c light_funcs.c create_cylinder.c \
 			create_plane.c utils_for_parsing.c create_light.c create_camera.c \
-			create_ambient.c parsing.c
+			create_ambient.c parsing.c vector_utils2.c vector_utils3.c \
+			garbage_collector.c garbage_collector_utils.c
 SRCS = $(addprefix src/, $(MEND_FILES))
 OBJS = $(SRCS:.c=.o)
 LIBFT 		= src/libft/libft.a
 HEADER		= includes/minirt.h
 
 CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror -I includes #-g3 -fsanitize=address
+CFLAGS 		= -Wall -Wextra -Werror -I includes -g3 -fsanitize=address
 MFLAGS		= -Lsrc/mlx_clone -lmlx -Isrc/mlx_clone -lXext -lX11 -lm -flto
 OPT			= -O3 -flto -march=native -ffast-math -fno-math-errno \
 			  -funroll-loops -fexpensive-optimizations
